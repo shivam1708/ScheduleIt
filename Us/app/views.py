@@ -217,12 +217,43 @@ def student_user_login(request):
     else:
         return render(request, 'app/studentlogin.html', {})
 
+def registerevent(request):
+    registered = False
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        short = request.POST.get('short')
+        long = request.POST.get('long')
+        pre = request.POST.get('pre')
+        indate = request.POST.get('indate')
+        outdate = request.POST.get('outdate')
+        location = request.POST.get('location')
+        image = request.POST.get('image')
+        cost = request.POST.get('cost')
+        payment = request.POST.get('payment')
+        print(str(indate),str(outdate))
+        #do processing over
+        main.create_request(name,request.user,name,short,long,pre,str(indate),str(outdate),location,image,cost,payment)
+        registered = True
+    return render(request,'app/registerevent.html',{'registered':registered})
+
 @login_required
 def council_fire(request,id):
-    if str(id)==str(request.user):
-        return render(request,'app/counciluser.html',{'name':str(id)})
-    else:
-        return HttpResponse("Cannot access")
+    src=[]
+    li=main.browser(id)
+    print(li)
+    for el in li:
+        try:
+            #print(el[11])  count
+            src.append([id,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10]])
+        except:
+            pass
+    print(len(src))
+    return render(request,'app/counciluser.html',{'src':src})
+    # if str(id)==str(request.user):
+    #     return render(request,'app/counciluser.html',{'name':str(id)})
+    # else:
+    #     return HttpResponse("Cannot access")
+
 
 @login_required
 def council_user_logout(request):
