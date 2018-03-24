@@ -294,6 +294,12 @@ def approve_request(a):
             refresh(user)
             db.child("council").child(temp[0]).set(tp,user['idToken'])
 
+def extra(username):
+    users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
+    if(len(users.each())):#check if entry exists
+        lis=users.val()[username]['sub']
+        return lis
+
 def send_sms(message):
     import SmsBot
     query = SmsBot.sms("9820501130","password") # username is usually Mobile Number (Logging in)
