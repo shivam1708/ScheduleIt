@@ -342,6 +342,23 @@ def approve_request(a):
     send_text_mail(subject=subject_text,body_text=body,toaddr=council_email)
     add_remove_events("add",council_email,title,location,description,date_from,date_to)
 
+def show_placements(username):
+    try:
+        placements=db.child("Placement").get(user['idToken']).val()
+        users=db.child("users").child(username).get(user['idToken']).val()
+    except:
+        refresh(user)
+        placements=db.child("Placement").get(user['idToken']).val()
+        users=db.child(username).get(user['idToken']).val()
+    lis={}
+    print(placements)
+    print(users)
+    for i in placements.keys():
+        print(placements[i])
+        if float(users['CGPA'])>=float(placements[i][0]) and int(users['year'])>=int(placements[i][1]):
+            lis[i]=placements[i]
+    return lis
+
 def remove_event(name):
     try:
         event=db.child("event").get(user['idToken']).val()
