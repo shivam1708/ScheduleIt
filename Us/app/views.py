@@ -34,7 +34,7 @@ def student_add(request):
     return HttpResponseRedirect(reverse('app:subscribed'))
 
 def subscribed(request):
-    listo = subscribe.extra(str(request.user))
+    listo = main.extra(str(request.user))
     print(listo)
     return render(request,'app/list.html',{'listo':listo})
 
@@ -42,15 +42,16 @@ def student_showsub(request):
     src=[]
     #print(users[i],id)
     li=main.show_booked(str(request.user))
-        #print(li)
+    #print(li)
     for i in li:
+        print(i)
         try:
-            src.append([i,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10]])
+            print("Bello")
+            src.append([i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9],i[10]])
         except:
             pass
         #desc.append(summ)
     print(len(src))
-
     return render(request,'app/show.html',{'src':src})
     #return render(request,'basic_app/user_page.html',{'src':src})
     #return render(request,'app/show.html',{'src':src})
@@ -84,11 +85,11 @@ def unregister(request):
     print("hello3")
     if request.method == 'POST':
         searched = request.POST.get('add')
-        print(searched)
+        print(searched,"shivamxxxxxxxxxxxxxxxxxxxxxxx")
         main.unRegister(str(request.user),searched)
+        print(searched)
         #print(searched)
-        #print(searched)
-    return HttpResponseRedirect(reverse('app:mylist'))
+    return HttpResponseRedirect(reverse('app:student_showsub'))
 
 
 @login_required
