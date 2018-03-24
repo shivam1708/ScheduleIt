@@ -34,7 +34,7 @@ def student_add(request):
     return HttpResponseRedirect(reverse('app:subscribed'))
 
 def subscribed(request):
-    listo = main.extra(str(request.user))
+    listo = subscribe.extra(str(request.user))
     print(listo)
     return render(request,'app/list.html',{'listo':listo})
 
