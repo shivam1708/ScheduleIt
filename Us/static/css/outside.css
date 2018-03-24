@@ -1,0 +1,99 @@
+.login {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+.close {
+    background-color: red;
+    padding: 1px;
+    cursor: pointer;
+}
+#tags {
+    margin: 10px;
+}
+
+*{
+    box-sizing: border-box;
+}
+.center {
+    padding: 10px;
+    background-color: #ddd;
+    box-shadow: 0 0 2px 0 rgba(0,0,0,.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.center h2 {
+    text-align: center;
+    text-decoration: underline;
+}
+.form-group {
+    position: relative;
+    padding-top: 16px;
+    margin-bottom: 16px;
+}
+.form-group label {
+    position: absolute;
+    top: 16px;
+    bottom: 0px;
+    width: 100%;
+    cursor: text;
+    user-select: none;
+    transition: .2s all linear;
+}
+.form-group label:after {
+    content: '';
+    position: absolute;
+    left: 45%;
+    bottom: 0;
+    height: 2px;
+    width: 10px;
+    background-color:#f56a6a;
+    visibility: hidden;
+    transition: .2s all linear;
+}
+.form-control {
+    border: 1px solid gray;
+}
+
+.form-control:focus {
+    outline: none;
+}
+
+.form-control:focus ~ label {
+    top: 0px;
+    font-size: 12px;
+}
+.form-control:focus ~ label:after {
+    left: 0;
+    width: 100%;
+    visibility: visible;
+}
+
+.form-group .trigger {
+    top: 0px;
+    font-size: 12px;
+}
+
+.form-group input[type="submit"] {
+    width: 100%;
+}
+
+#tags {
+    font-size:16px;
+}
+#tags .data {
+    margin: 5px;
+}
+#tags .data ::before {
+    content: "●";
+    position: absolute;
+    left: 0;
+}
+#tags .data .close {
+    padding: 2px;
+    border-radius: 2px;
+    margin-left: 5px;
+}

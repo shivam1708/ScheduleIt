@@ -338,6 +338,20 @@ def approve_request(a):
     date_to = temp[6]
     add_remove_events("add",council_email,title,location,description,date_from,date_to)
 
+def remove_event(name):
+    try:
+        event=db.child("event").get(user['idToken']).val()
+    except:
+        refresh(user)
+        event=db.child("event").get(user['idToken']).val()
+    temp=event[name]
+    del event(name)
+    try:
+        db.child("event").set(event,user['idToken'])
+    except:
+        refresh(user)
+        db.child("event").set(event,user['idToken'])
+
 def extra(username):
     users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
     if(len(users.each())):#check if entry exists
