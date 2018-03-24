@@ -395,6 +395,21 @@ def decline_request(a):
             refresh(user)
             db.child('requests').set(lis,user['idToken'])
 
+def add_user(name,cgpa,emailid,mobile):
+    try:
+        users=db.child("users").get(user['idToken'])
+    except:
+        refresh(user)
+        users=db.child("users").get(user['idToken'])
+    if users!=None:
+        data=users.val()
+        data[name]={'CGPA':cgpa,'email-id':emailid,'mobile':mobile}
+        db.child("users").set(data,user['idToken'])
+    else:
+        data={}
+        data[name]={'CGPA':cgpa,'email-id':emailid,'mobile':mobile}
+        db.child("users").set(data,user['idToken'])
+
 def remove_event(name):
     try:
         event=db.child("event").get(user['idToken']).val()
