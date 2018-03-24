@@ -1,0 +1,19 @@
+{% block body_block %}
+    <div class="">
+      {% if registered %}
+        <h1 class="thank">Thank you for registering</h1>
+      {% else %}
+      <div class="formy">
+        <h1 class="form-head">Register</h1>
+
+        <form enctype="multipart/form-data" method="post">
+          {% csrf_token %}
+          {{user_form.as_p}}
+          {{profile_form.as_p}}
+          <input class="button" type="submit" value="Register">
+        </form>
+
+      </div>
+      {% endif %}
+    </div>
+{% endblock %}
