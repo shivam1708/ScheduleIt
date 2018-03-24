@@ -123,6 +123,14 @@ def Register(username,event):
         refresh(user)
         db.child("event").child(event).set(eventup,user['idToken'])
 
+def show_req():
+    try:
+        lis=db.child('requests').get(user['idToken']).val()
+    except:
+        refresh(user)
+        lis=db.child('requests').get(user['idToken']).val()
+    return lis
+
 #inactive
 def unRegister(username,event):
     try:
