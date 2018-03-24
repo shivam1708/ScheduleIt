@@ -246,7 +246,7 @@ def council_fire(request,id):
     for el in li:
         try:
             #print(el[11])  count
-            src.append([id,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10]])
+            src.append([id,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10],el[11]])
         except:
             pass
     print(len(src))
