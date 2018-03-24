@@ -1,3 +1,9 @@
+from __future__ import print_function
+import httplib2
+from apiclient import discovery
+from oauth2client import client
+from oauth2client import tools
+from oauth2client.file import Storage
 import re,math,sys
 import pyrebase
 from collections import Counter
@@ -6,6 +12,15 @@ import random
 import hashlib
 import time
 import pandas as pd
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+import pyscreenshot as ImageGrab
+import time
+
+fromaddr = "teamanything98@gmail.com"
 
 config={
         "apiKey": "AIzaSyA1wjplVeOEq-19cb7QDyjlqd2TNl0iDws",
@@ -220,3 +235,147 @@ def create_request(name,a,b,c,d):
 	else:
 		data[name]=[a,b,c,d]
 		db.child("requests").set(data,user['idToken'])
+
+def send_sms(message):
+    import SmsBot
+    query = SmsBot.sms("9820501130","password") # username is usually Mobile Number (Logging in)
+    my_message = "HEll yeah"
+    query.send("9820501130",my_message) # recipient = receiver's number
+    query.Logout()
+
+def send_mail(subject,body_text,toaddr = "nishchith.s@somaiya.edu"):
+    msg = MIMEMultipart()
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = subject
+    body = body_text
+    msg.attach(MIMEText(body, 'plain'))
+
+    filename = "screenshot.png"
+    attachment = open(filename, "rb")
+
+    p = MIMEBase('application', 'octet-stream')
+    p.set_payload((attachment).read())
+    encoders.encode_base64(p)
+    p.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+    msg.attach(p)
+
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login(fromaddr, "@randombits98")
+    text = msg.as_string()
+    s.sendmail(fromaddr, toaddr, text)
+    s.quit()
+
+def send_ticket(email_id):
+    im = ImageGrab.grab(bbox=(300,300,700,400))
+    im.save("screenshot.png")
+    send_mail(subject="Your Tickets",body_text="PFA",toaddr=email_id)
+
+
+
+try:
+    import argparse
+    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+except ImportError:
+    flags = None
+
+# If modifying these scopes, delete your previously saved credentials
+# at ~/.credentials/calendar-python-quickstart.json
+SCOPES = 'https://www.googleapis.com/auth/calendar'
+CLIENT_SECRET_FILE = 'client_secret.json'
+APPLICATION_NAME = 'Google Calendar API Python Quickstart'
+
+
+def get_credentials():
+    """Gets valid user credentials from storage.
+
+    If nothing has been stored, or if the stored credentials are invalid,
+    the OAuth2 flow is completed to obtain the new credentials.
+
+    Returns:
+        Credentials, the obtained credential.
+    """
+    home_dir = os.path.expanduser('~')
+    credential_dir = os.path.join(home_dir, '.credentials')
+    if not os.path.exists(credential_dir):
+        os.makedirs(credential_dir)
+    credential_path = os.path.join(credential_dir,
+                                   'calendar-python-quickstart.json')
+
+    store = Storage(credential_path)
+    credentials = store.get()
+    if not credentials or credentials.invalid:
+        flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
+        flow.user_agent = APPLICATION_NAME
+        if flags:
+            credentials = tools.run_flow(flow, store, flags)
+        else: # Needed only for compatibility with Python 2.6
+            credentials = tools.run(flow, store)
+        print('Storing credentials to ' + credential_path)
+    return credentials
+
+def add_remove_events():
+    """Shows basic usage of the Google Calendar API.
+
+    Creates a Google Calendar API service object and outputs a list of the next
+    10 events on the user's calendar.
+    """
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build('calendar', 'v3', http=http)
+
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    eventsResult = service.events().list(
+        calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
+        orderBy='startTime').execute()
+
+    events = eventsResult.get('items', [])
+    print(events)
+    created_event = service.events().quickAdd(
+    calendarId='primary',
+    text='Appointment at Somewhere on June 3rd 10am-10:25am').execute()
+    print('Creating events')
+
+    '''
+    check :meta , add params
+    '''
+
+    event = {
+        'summary': 'Google I/O 2015',
+        'location': '800 Howard St., San Francisco, CA 94103',
+        'description': 'A chance to hear more about Google\'s developer products.',
+        'start': {
+        'dateTime': '2018-03-28T09:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+        },
+        'end': {
+        'dateTime': '2018-03-28T17:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+        },
+        'recurrence': [
+        'RRULE:FREQ=DAILY;COUNT=2'
+        ],
+        'attendees': [
+            {'email': 'lpage@example.com'},
+            {'email': 'sbrin@example.com'},
+        ],
+        'reminders': {
+        'useDefault': False,
+        'overrides': [
+        {'method': 'email', 'minutes': 24 * 60},
+        {'method': 'popup', 'minutes': 10},
+        ],
+    },
+    }
+    # event = service.events().insert(calendarId='primary', body=event).execute()
+    # service.events().delete(calendarId='primary', eventId='7g6i584ioo87t9f39n9pth7q0p').execute()
+
+    '''
+    if not events:
+        print('No upcoming events found.')
+    for event in events:
+        print(event)
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        print(start, event['summary'])
+    '''

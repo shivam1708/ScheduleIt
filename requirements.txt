@@ -1,0 +1,5 @@
+httplib2
+django==1.11.3
+pyrebase
+smtplib
+pyscreenshot
