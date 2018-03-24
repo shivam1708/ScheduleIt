@@ -92,7 +92,6 @@ def unsubChannel(username,value):
 def Register(username,event):
     print(event)
     try:
-        users=db.child("id").order_by_key().equal_to(username).get(user['idToken'])
         data={'sub':[event]}
         users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
         if(len(users.each())):#check if entry exists
@@ -111,6 +110,18 @@ def Register(username,event):
     except:
         refresh(user)
         Register(username,event)
+    try:
+        users=db.child("event").get(user['idToken']).val()
+    except:
+        refresh(user)
+        users=db.child("event").get(user['idToken']).val()
+    eventup=users[event]
+    eventup[-1]=str(int(eventup[-1])+1)
+    try:
+        db.child("event").child(event).set(eventup,user['idToken'])
+    except:
+        refresh(user)
+        db.child("event").child(event).set(eventup,user['idToken'])
 
 #inactive
 def unRegister(username,event):
@@ -231,6 +242,57 @@ def create_request(name,a,b,c,d):
 	else:
 		data[name]=[a,b,c,d]
 		db.child("requests").set(data,user['idToken'])
+
+def approve_request(a):
+    temp=[]
+    try:
+        events=db.get(user['idToken'])
+    except:
+        refresh(user)
+        events=db.get(user['idToken'])
+    if 'requests' in events.val().keys():
+        lis=events.val()['requests']
+        temp=lis[a]
+        del lis[a]
+        try:
+            db.child('requests').set(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child('requests').set(lis,user['idToken'])
+    data={}
+    try:
+        events=db.get(user['idToken'])
+    except:
+        refresh(user)
+        events=db.get(user['idToken'])
+    temp.append('0')
+    if 'event' in events.val().keys():
+        lis=events.val()['event']
+        lis[a]=temp
+        try:
+            db.child("event").update(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child("event").update(lis,user['idToken'])
+    else:
+        data[a]=temp
+        db.child("event").set(data,user['idToken'])
+    aps=db.child("council").get(user['idToken']).val()
+    tp=[a]
+    if temp[0] in aps.keys():
+        tp=aps[temp[0]]
+        tp.append(a)
+        try:
+            db.child("council").child(temp[0]).set(tp,user['idToken'])
+        except:
+            refresh(user)
+            db.child("council").child(temp[0]).set(tp,user['idToken'])
+    else:
+        try:
+            db.child("council").child(temp[0]).set(tp,user['idToken'])
+        except:
+            refresh(user)
+            db.child("council").child(temp[0]).set(tp,user['idToken'])
 
 def send_sms(message):
     import SmsBot
