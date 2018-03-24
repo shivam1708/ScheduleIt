@@ -27,7 +27,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = ""
+password = "test123"
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -325,6 +325,18 @@ def approve_request(a):
         except:
             refresh(user)
             db.child("council").child(temp[0]).set(tp,user['idToken'])
+    try:
+        council_email = db.child("users").get(user["idToken"]).val()
+    except:
+        refresh(user)
+        council_email = db.child("users").get(user["idToken"]).val()
+    council_email = council_email[temp[0]]["email-id"]
+    title = temp[1]
+    location = temp[7]
+    description = temp[2]
+    date_from = temp[5]
+    date_to = temp[6]
+    add_remove_events("add",council_email,title,location,description,date_from,date_to)
 
 def extra(username):
     users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
@@ -425,7 +437,7 @@ def get_credentials():
         print('Storing credentials to ' + credential_path)
     return credentials
 
-def add_remove_events():
+def add_remove_events(flag,council_email,title,location,description,df,dt):
     """Shows basic usage of the Google Calendar API.
 
     Creates a Google Calendar API service object and outputs a list of the next
@@ -450,25 +462,26 @@ def add_remove_events():
     '''
     check :meta , add params
     '''
-
+    #mm/dd/yyyy/hh:mm:am   
+    date_from = df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
+    date_to = dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
     event = {
-        'summary': 'Google I/O 2015',
-        'location': '800 Howard St., San Francisco, CA 94103',
-        'description': 'A chance to hear more about Google\'s developer products.',
+        'summary': title,
+        'location': location,
+        'description': description,
         'start': {
-        'dateTime': '2018-03-28T09:00:00-07:00',
+        'dateTime': date_from,
         'timeZone': 'America/Los_Angeles',
         },
         'end': {
-        'dateTime': '2018-03-28T17:00:00-07:00',
+        'dateTime': date_to,
         'timeZone': 'America/Los_Angeles',
         },
         'recurrence': [
-        'RRULE:FREQ=DAILY;COUNT=2'
+        'RRULE:FREQ=DAILY;COUNT=1'
         ],
         'attendees': [
-            {'email': 'lpage@example.com'},
-            {'email': 'sbrin@example.com'},
+            {'email': council_email},
         ],
         'reminders': {
         'useDefault': False,
@@ -478,8 +491,11 @@ def add_remove_events():
         ],
     },
     }
-    # event = service.events().insert(calendarId='primary', body=event).execute()
-    # service.events().delete(calendarId='primary', eventId='7g6i584ioo87t9f39n9pth7q0p').execute()
+
+    if flag == "add":
+        event = service.events().insert(calendarId='primary', body=event).execute()
+    else:
+        service.events().delete(calendarId='primary', eventId='').execute()
 
     '''
     if not events:
