@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-
+from . import main
 
 from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -19,12 +19,80 @@ def index(request):
 def student(request):
     return render(request,'app/student.html')
 
+def student_remove(request):
+    if request.method == 'POST':
+        searched = request.POST.get('sub')
+        main.unsubChannel(str(request.user),searched)
+    return HttpResponseRedirect(reverse('app:subscribed'))
+
+
+def student_add(request):
+
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        main.subChannel(str(request.user),searched)
+    return HttpResponseRedirect(reverse('app:subscribed'))
+
+def subscribed(request):
+    listo = main.extra(str(request.user))
+    print(listo)
+    return render(request,'app/list.html',{'listo':listo})
+
+def student_showsub(request):
+    src=[]
+    #print(users[i],id)
+    li=main.show_booked(str(request.user))
+        #print(li)
+    for i in li:
+            src.append([i[0],i[1],i[2]])
+            #desc.append(summ)
+            print(len(src))
+
+    return render(request,'app/show.html',{'src':src})
+    #return render(request,'basic_app/user_page.html',{'src':src})
+    #return render(request,'app/show.html',{'src':src})
+
+def student_enter(request):
+    return render(request,'app/index2.html',{})
+
+def student_browse(request):
+    if request.method == 'POST':
+        source=request.POST.get('inputurl2')
+    src = []
+    li=main.browser(source)
+    for el in li:
+        src.append([source,el[0],el[1],el[2]])
+    print(len(src))
+    return render(request,'app/browse.html',{'src':src})
+
 @login_required
 def student_fire(request,id):
-    if str(id)==str(request.user):
-        return render(request,'app/studentuser.html',{'name':str(id)})
-    else:
-        return HttpResponse("Cannot access")
+    users = User.objects.all()
+
+    # cname = []
+    # title = []
+    # head = []
+    # desc = []
+    # pre = []
+    # cost = []
+    # img = []
+
+    for i in range(len(users)):
+        src=[]
+        print(users[i],id)
+        if(str(users[i]) == id):
+            li=main.generate_feed(id)
+            print(li)
+            for i in li.keys():
+                #print(i)
+                for el in li[i]:
+                    src.append([i,el[0],el[1],el[2]])
+                    #desc.append(summ)
+            print(len(src))
+
+            return render(request,'app/studentuser.html',{'src':src})
+        #return render(request,'basic_app/user_page.html',{'src':src})
+    return render(request,'app/studentuser.html',{'src':src})
 
 @login_required
 def student_user_logout(request):

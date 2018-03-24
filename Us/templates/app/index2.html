@@ -1,0 +1,5 @@
+<form action="{% url 'app:student_browse'%}" method="post">
+      {% csrf_token %}
+      <input type="text" class="searchbar__query" name="inputurl2" placeholder="Enter council(eg:codecell)">
+      <button type="submit" class="searchbar__submit" value="GetNews"><i class="fa fa-search"></i>search</button>
+</form>
