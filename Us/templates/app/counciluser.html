@@ -1,10 +1,18 @@
 {% extends 'app/base2.html' %}
+{% load staticfiles %}
 {% block body_block %}
+<script>
+    var registered=[];
+</script>
 <div class="result">
     {% for i in src %}
     <div class="resultcard">
+        <script>
+            console.log({{i.11}},"count!")
+            registered.push({{i.11}})
+        </script>
         <h2 class="resultcard__heading">{{i.1}}</h2>
-        <img class="resultcard__img" src={{i.8}} alt="#">
+        <canvas class="countGraph"></canvas>
         <p class="resultcard__sht">{{i.2}}</p>
         <h4 class="resultcard__source">{{i.0}}</h4>
         <h4 class="resultcard__price">₹ {{i.9}}</h4>
@@ -42,4 +50,5 @@
     </div>
     {% endfor %}
         </div>
+        <script src="{% static 'js/count.js' %}"></script>
 {% endblock %}
