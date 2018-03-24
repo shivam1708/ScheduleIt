@@ -223,8 +223,16 @@ body {
     display: inline-block;
     margin: 1rem 5%; }
   .resultcard__heading {
-    padding: 0 2rem 0 2rem;
+    padding: 1rem 2rem;
     font-size: 2rem; }
+  .resultcard__sht {
+    padding: 0rem 2rem; }
+  .resultcard__source {
+    padding: 0 2rem;
+    text-align: right; }
+  .resultcard__price {
+    padding: 0 2rem;
+    text-align: right; }
 
 .active {
   color: var(--color-primary); }
@@ -270,10 +278,21 @@ body {
     font-size: 2rem; }
   .summarycard__summary {
     line-height: 2.4rem;
-    font-size: 1.8rem; }
+    font-size: 1.8rem;
+    margin-bottom: 1rem; }
   .summarycard__source {
     text-align: right;
     padding: 2rem; }
+  .summarycard__time {
+    margin-bottom: .5rem; }
+    .summarycard__time span {
+      font-weight: 900;
+      color: var(--color-primary); }
+  .summarycard__location {
+    margin-bottom: .5rem; }
+    .summarycard__location span {
+      font-weight: 900;
+      color: var(--color-primary); }
 
 .is-open {
   display: flex;
