@@ -61,7 +61,8 @@
               <li class="sidebar__item"><a href="{% url 'index' %}">Home</a></li>
               {% endif %}
               {% if user.is_authenticated %}
-              <li class="sidebar__item"><a href="{% url 'app:registerevent' %}">Placement</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:placement' %}">Add Placement</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:placementlist' %}">Placement</a></li>
               {% endif %}
           </ul>
       </aside>
