@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Base</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="navbar__right">
+                <ul class="navbar__items">
+                    {% if user.is_authenticated %}
+                    <li class="navbar__item"><a href="{% url 'app:student_user_logout' %}">Logout</a></li>
+                    {% else %}
+                    <li class="navbar__item"><a href="{% url 'app:student_user_login' %}">Login</a></li>
+                    <li class="navbar__item"><a href="{% url 'app:student_register' %}">Signup</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="">
+            <aside class="sidebar">
+                  <ul class="sidebar__items">
+                      {% if user.is_active %}
+                      <li class="sidebar__item"><a href="{% url 'app:student_fire' user %}">Home</a></li>
+                      {% else %}
+                      <li class="sidebar__item"><a href="{% url 'index' %}">Home</a></li>
+                      {% endif %}
+
+                      {% if user.is_authenticated %}
+
+                      {% endif %}
+                  </ul>
+              </aside>
+            </div>
+    <div class="jumbotron">
+
+    {% block body_block %}
+
+    {% endblock %}
+
+  </div>
+  </body>
+</html>
