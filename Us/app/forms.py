@@ -15,7 +15,7 @@ class UserForm(forms.ModelForm):
 class UserProfileInfoForm(forms.ModelForm):
     class Meta():
         model = UserProfileInfo
-        fields = ('profile_pic',)
+        fields = ('pointer','phone_no','profile_pic',)
 
 class CouncilForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
