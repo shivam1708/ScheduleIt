@@ -1,14 +1,12 @@
 {% extends 'app/base.html' %}
+
 {% block body_block %}
 {% for i in src %}
-      <a href="{% url 'app:student_showsub' %}">Show</a>
-      <a href="{% url 'app:student_enter' %}">Browse</a>
-      <a href="{% url 'app:subscribed' %}">Subscribe</a></li>
       <div class="resultcard">
         <h1>{{i.0}}</h1>
         <h1>{{i.1}}</h1>
         <h1>{{i.2}}</h1>
         <h1>{{i.3}}</h1>
       </div>
-      {% endfor %}
+{% endfor %}
 {% endblock %}

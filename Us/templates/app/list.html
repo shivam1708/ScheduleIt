@@ -1,0 +1,21 @@
+{% extends 'app/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+<div class="subscribe__container">
+                    <div class="subscribe">
+                        <div class="subscribe__form">
+                            <form action="{% url 'app:student_add'%}" method="post">
+                              {% csrf_token %}
+                              <input type="text" id="subscribe__input" name="add" placeholder="Subscribe To">
+                              <button id="submit"><i class="fa fa-plus"></i></button>
+                            </form>
+                        </div>
+                    <div id="subscribe__list">
+                      {% for i in listo %}
+                        <div class="subscribe__name">{{i}}<span class="close"><i class="fa fa-close"></i></span></div>
+                      {% endfor %}
+                    </div>
+                  </div>
+</div>
+{% endblock %}
