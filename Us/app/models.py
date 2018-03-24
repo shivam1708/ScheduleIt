@@ -6,6 +6,8 @@ class UserProfileInfo(models.Model):
 
     user = models.OneToOneField(User)
 
+    phone_no = models.CharField(max_length=264,blank=True)
+    pointer = models.CharField(max_length=264,blank=True)
     profile_pic = models.ImageField(upload_to='profile_pics',blank=True)
 
     def __str__(self):

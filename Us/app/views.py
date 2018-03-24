@@ -162,7 +162,7 @@ def student_register(request):
 
             # Now save model
             profile.save()
-
+            print(user.username,user.email,profile.phone_no)
             # Registration Successful
             registered = True
             u = reverse('app:student_user_login')
