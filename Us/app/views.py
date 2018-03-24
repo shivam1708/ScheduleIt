@@ -86,7 +86,10 @@ def student_fire(request,id):
             for i in li.keys():
                 #print(i)
                 for el in li[i]:
-                    src.append([i,el[0],el[1],el[2]])
+                    try:
+                        src.append([i,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10]])
+                    except:
+                        pass
                     #desc.append(summ)
             print(len(src))
 
