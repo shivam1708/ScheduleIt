@@ -234,9 +234,32 @@ def registerevent(request):
         payment = request.POST.get('payment')
         print(str(indate),str(outdate))
         #do processing over
-        main.create_request(name,request.user,name,short,long,pre,str(indate),str(outdate),location,image,cost,payment)
+        main.create_request(str(request.user),str(name),str(short),str(long),str(pre),str(indate),str(outdate),str(location),str(image),str(cost),str(payment))
         registered = True
     return render(request,'app/registerevent.html',{'registered':registered})
+
+def placement(request):
+    registered = False
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        pointer = request.POST.get('pointer')
+        year = request.POST.get('year')
+        no = request.POST.get('no')
+        pos = request.POST.get('pos')
+        desc = request.POST.get('desc')
+        date = request.POST.get('date')
+        url = request.POST.get('url')
+        #do processing over
+        main.create_placement(str(name),str(pointer),str(year),str(no),str(pos),str(desc),str(date),str(url))
+        registered = True
+    return render(request,'app/placement.html',{'registered':registered})
+
+def placementlist(request):
+    li = main.show_placements(request.user)
+    src = []
+    for i in li.keys():
+        src.append([i,li[i][2],li[i][3],li[i][4],li[i][5],li[i][6]])
+    return render(request,'app/placementlist.html',{'src':src})
 
 @login_required
 def council_fire(request,id):
@@ -246,7 +269,7 @@ def council_fire(request,id):
     for el in li:
         try:
             #print(el[11])  count
-            src.append([el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10],el[11]])
+            src.append([id,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10],el[11]])
         except:
             pass
     print(len(src))

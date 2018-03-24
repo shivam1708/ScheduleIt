@@ -1,0 +1,16 @@
+{% extends 'app/base3.html' %}
+
+{% block body_block %}
+<div class="result">
+    {% for i in src %}
+    <div class="resultcard">
+        <h2 class="">{{i.0}}</h2>
+        <h2 class="">{{i.1}}</h2>
+        <h2 class="">{{i.2}}</h2>
+        <h2 class="">{{i.3}}</h2>
+        <h2 class="">{{i.4}}</h2>
+        <h2 class="">{{i.5}}</h2>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -88,6 +88,44 @@ def unsubChannel(username,value):
         refresh(user)
         unsubChannel(username,value)
 
+def create_placement(name,a,b,c,d,e,f,g):
+    data={}
+    try:
+        events=db.get(user['idToken']).val()
+    except:
+        refresh(user)
+        events=db.get(user['idToken']).val()
+    if 'Placement' in events.keys():
+        lis=events['Placement']
+        print(lis)
+        lis[name]=[a,b,c,d,e,f,g]
+        print(lis)
+        try:
+            db.child("Placement").set(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child("Placement").set(lis,user['idToken'])
+    else:
+        data[name]=[a,b,c,d,e,f,g]
+        db.child("Placement").set(data,user['idToken'])
+
+def show_placements(username):
+    try:
+        placements=db.child("Placement").get(user['idToken']).val()
+        users=db.child("users").child(username).get(user['idToken']).val()
+    except:
+        refresh(user)
+        placements=db.child("Placement").get(user['idToken']).val()
+        users=db.child(username).get(user['idToken']).val()
+    lis={}
+    print(placements)
+    print(users)
+    for i in placements.keys():
+        print(placements[i])
+        if float(users['CGPA'])>=float(placements[i][0]) and int(users['year'])>=int(placements[i][1]):
+            lis[i]=placements[i]
+    return lis
+
 def Register(username,event):
     print(event)
     try:
@@ -242,7 +280,7 @@ def create_request(name,a,b,c,d,e,f,g,h,i,j):
 	if 'requests' in events.val().keys():
 		lis=events.val()['requests']
 		print(lis)
-		lis[name]=[name,a,b,c,d,e,f,g,h,i,j]
+		lis[a]=[name,a,b,c,d,e,f,g,h,i,j]
 		print(lis)
 		try:
 			db.child("requests").update(lis,user['idToken'])
@@ -250,7 +288,7 @@ def create_request(name,a,b,c,d,e,f,g,h,i,j):
 			refresh(user)
 			db.child("requests").update(lis,user['idToken'])
 	else:
-		data[name]=[a,b,c,d]
+		data[a]=[name,a,b,c,d,e,f,g,h,i,j]
 		db.child("requests").set(data,user['idToken'])
 
 def create_notice(name,a,b,c,d):
