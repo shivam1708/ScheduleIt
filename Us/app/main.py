@@ -26,8 +26,8 @@ config={
 }
 
 
-email="teamanything98@gmail.com"
-password=""
+email = "teamanything98@gmail.com"
+password = ""
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -122,6 +122,7 @@ def Register(username,event):
     except:
         refresh(user)
         db.child("event").child(event).set(eventup,user['idToken'])
+    
 
 def show_req():
     try:
@@ -310,14 +311,23 @@ def extra(username):
         lis=users.val()[username]['sub']
         return lis
 
-def send_sms(message):
+
+#### notification s
+def send_sms(name,event):
+    try :
+        users = db.child('users').get(user['idToken']).val()
+    except:
+        refresh(user)
+        users = db.child('users').get(user['idToken']).val()
+    contact_number = users[name]["mobile"]
+
     import SmsBot
     query = SmsBot.sms("9820501130","password") # username is usually Mobile Number (Logging in)
-    my_message = "HEll yeah"
-    query.send("9820501130",my_message) # recipient = receiver's number
+    my_message = "Hi, " + name + "\nYou're successfully registered for :" + event
+    query.send(contact_number,my_message) # recipient = receiver's number
     query.Logout()
 
-def send_mail(subject,body_text,toaddr = "nishchith.s@somaiya.edu"):
+def send_mail(subject,body_text,location,toaddr = "nishchith.s@somaiya.edu"):
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = toaddr
@@ -325,7 +335,7 @@ def send_mail(subject,body_text,toaddr = "nishchith.s@somaiya.edu"):
     body = body_text
     msg.attach(MIMEText(body, 'plain'))
 
-    filename = "screenshot.png"
+    filename = location
     attachment = open(filename, "rb")
 
     p = MIMEBase('application', 'octet-stream')
@@ -341,10 +351,17 @@ def send_mail(subject,body_text,toaddr = "nishchith.s@somaiya.edu"):
     s.sendmail(fromaddr, toaddr, text)
     s.quit()
 
-def send_ticket(email_id):
-    im = ImageGrab.grab(bbox=(300,300,700,400))
-    im.save("screenshot.png")
-    send_mail(subject="Your Tickets",body_text="PFA",toaddr=email_id)
+def send_ticket(name,event):
+    create_qrcode(name,event)
+    try :
+        users = db.child('users').get(user['idToken']).val()
+    except:
+        refresh(user)
+        users = db.child('users').get(user['idToken']).val()
+    email_id = users[name]["email-id"]
+    print(email_id)
+    location = name+"-"+event+"-qr.png"
+    send_mail(subject="Your Confirmed Tickets for : "+event,body_text="PFA, \n regards",toaddr=email_id,location = location)
 
 
 # If modifying these scopes, delete your previously saved credentials
@@ -454,5 +471,5 @@ def add_remove_events():
 
 def create_qrcode(name,eventname):
     import pyqrcode
-    qr = pyqrcode.create('Name: Nishchith Shetty \nApproved: Yes \nUnique Hash : sha256#123')
-    qr.png('famous-joke.png', scale=5)
+    qr = pyqrcode.create("Name: "+name+" \nApproved: Yes \n "+"Event Name: "+eventname)     # expand
+    qr.png(name+"-"+eventname+"-qr.png", scale=5)
