@@ -225,12 +225,6 @@ body {
   .resultcard__heading {
     padding: 0 2rem 0 2rem;
     font-size: 2rem; }
-  .resultcard__source {
-    position: absolute;
-    bottom: .5rem;
-    right: .5rem;
-    text-align: right;
-    padding: 2rem; }
 
 .active {
   color: var(--color-primary); }
