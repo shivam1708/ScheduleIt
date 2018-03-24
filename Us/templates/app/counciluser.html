@@ -1,4 +1,54 @@
-{% extends 'app/base.html' %}
+{% extends 'app/base2.html' %}
+{% load staticfiles %}
 {% block body_block %}
-  <h1>Hello,{{name}}</h1>
+<script>
+    var registered=[];
+</script>
+<div class="result">
+    {% for i in src %}
+    <div class="resultcard">
+        <script>
+            console.log({{i.11}},"count!")
+            registered.push({{i.11}})
+        </script>
+        <h2 class="resultcard__heading">{{i.1}}</h2>
+        <canvas class="countGraph"></canvas>
+        <p class="resultcard__sht">{{i.2}}</p>
+        <h4 class="resultcard__source">{{i.0}}</h4>
+        <h4 class="resultcard__price">₹ {{i.9}}</h4>
+    </div>
+    <div class="summarycard">
+        <div class="summarycard__left">
+            <img src={{i.8}} alt="#">
+                <div class="feature">
+                <ul class="feature__list">
+                    <li class="feature__item"><a href=""><i class="fa fa-thumbs-up"></i></a></li>
+                    <li class="feature__item"><a href=""><i class="fa fa-thumbs-down"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="summarycard__right">
+            <div class="feature">
+                <ul class="feature__list feature__list--right">
+                  <li class="feature__item"><a href="#"><i class="fa fa-bookmark-o bookmark"></i></a></li>
+                  <script>var bookadd_url = "#"</script>
+                </ul>
+            </div>
+            <h2 class="summarycard__heading">{{i.1}}</h2>
+            <p class="summarycard__summary">{{i.3}}</p>
+            <p class="summarycard__location"><span>Venue: </span>{{i.7}}</p>
+            <p class="summarycard__time"><span>Timing: </span>{{i.5}} - {{i.6}}</p>
+            <h4 class="summarycard__source">{{i.0}}</h4>
+
+            <div class="feature">
+                <ul class="feature__list feature__list--right">
+                    <li class="feature__item"><a href="" title="Facebook Share"><i class="fa fa-facebook"></i></a></li>
+                    <li class="feature__item"><a href="" title="Twitter Share"><i class="fa fa-twitter"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+        </div>
+        <script src="{% static 'js/count.js' %}"></script>
 {% endblock %}

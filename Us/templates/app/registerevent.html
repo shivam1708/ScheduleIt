@@ -1,0 +1,100 @@
+{% extends 'app/base2.html' %}
+{% block body_block %}
+{% if registered %}
+  <h1>Thank You For Registering</h1>
+{% else %}
+<div class="createEvent">
+    <h2>Create Event</h2><br>
+    <form action="{% url 'app:registerevent'%}" method="post">
+      {% csrf_token %}
+        <div class="createEvent__group">
+            <label for="name">Event Name</label><br>
+            <input type="text" name="name">
+        </div>
+        <div class="createEvent__group">
+            <label for="">Short Description</label><br>
+            <textarea name="short" id="shortdescr" cols="50" rows="5"></textarea>
+        </div>
+        <div class="createEvent__group">
+            <label for="">Description</label><br>
+            <textarea name="long" id="descr" cols="50" rows="10"></textarea>
+        </div>
+        <div class="createEvent__group">
+            <label for="">Prerequisties</label><br>
+            <textarea name="pre" cols="50" rows="5"></textarea>
+        </div>
+        <div class="createEvent__group">
+            <label for="">From</label>
+            <input type="datetime-local" value="2018-03-24T08:30" name="indate">
+            <label for="">To</label>
+            <input type="datetime-local" value="2018-03-24T10:30" name="outdate">
+        </div>
+        <div class="createEvent__group">
+            <label for="">Location</label><br>
+            <textarea name="location" id="location" cols="50" rows="2"></textarea>
+        </div>
+        <div class="createEvent__group">
+            <label for="">Poster URL</label><br>
+            <input type="text" name="image">
+        </div>
+        <div class="createEvent__group">
+            <label for="">Registration Fees</label><br>
+            <input type="text" name="cost">
+        </div>
+        <div class="createEvent__group">
+            <label for="">Payment Gateway</label><br>
+            <input type="text" name="payement">
+        </div>
+        <div class="createEvent__group">
+            <input type="submit" class="createEvent__submit">
+        </div>
+    </form>
+</div>
+{% endif %}
+{% endblock %}
+<!-- <div class="createEvent">
+    <h2>Create Event</h2><br>
+    <form action="{% url 'app:registerevent'%}" method="post">
+        <div class="createEvent__group">
+            <label for="name">Event Name</label><br>
+            <input type="text" name="name">
+        </div>
+        <div class="createEvent__group">
+            <label for="">Short Description</label><br>
+            <textarea name="short" id="shortdescr" cols="50" rows="5"></textarea>
+        </div>
+        <div class="createEvent__group">
+            <label for="">Description</label><br>
+            <textarea name="long" id="descr" cols="50" rows="10"></textarea>
+        </div>
+        <div class="createEvent__group">
+            <label for="">Prerequisties</label><br>
+            <textarea name="pre" cols="50" rows="5"></textarea>
+        </div>
+        <div class="createEvent__group">
+            <label for="">From</label>
+            <input type="datetime-local" value="2018-03-24T08:30" name="indate">
+            <label for="">To</label>
+            <input type="datetime-local" value="2018-03-24T10:30" name="outdate">
+        </div>
+        <div class="createEvent__group">
+            <label for="">Location</label><br>
+            <textarea name="location" id="location" cols="50" rows="2"></textarea>
+        </div>
+        <div class="createEvent__group">
+            <label for="">Poster URL</label><br>
+            <input type="text" name="image">
+        </div>
+        <div class="createEvent__group">
+            <label for="">Registration Fees</label><br>
+            <input type="text" name="cost">
+        </div>
+        <div class="createEvent__group">
+            <label for="">Payment Gateway</label><br>
+            <input type="text" name="payement">
+        </div>
+        <div class="createEvent__group">
+            <input type="submit" class="createEvent__submit">
+        </div>
+    </form>
+</div> -->

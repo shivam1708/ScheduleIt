@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sofia" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="{% static 'js/cookie.js' %}"></script>
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>Base</title>
+  </head>
+  <body>
+      <div class="nightmode">
+          <label class="switch">
+            <input type="checkbox" id="nightmode">
+            <span class="slider round"></span>
+          </label>
+          <script src="{% static 'js/nightmode.js' %}"></script>
+      </div>
+      <nav class="navbar">
+          <div class="navbar__left">
+                  <p id="time"></p>
+
+                  <script>
+                      function updateClock(){
+                          document.getElementById("time").innerHTML = String(Date()).slice(0,24);
+                      }
+                      setInterval(updateClock, 1000);
+                  </script>
+          </div>
+          <div class="navbar__center">
+              <img src="{% static 'assets/logo.png' %}" alt="" class="navbar__logo">
+              <span class="navbar__logoname">ScheduleIt</span>
+          </div>
+          <div class="navbar__right">
+              <ul class="navbar__items">
+                  {% if user.is_authenticated %}
+                  <li class="navbar__item"><a href="{% url 'app:student_user_logout' %}">Logout</a></li>
+                  {% else %}
+                  <li class="navbar__item"><a href="{% url 'app:student_user_login' %}">Login</a></li>
+                  <li class="navbar__item"><a href="{% url 'app:student_register' %}">Signup</a></li>
+                  {% endif %}
+              </ul>
+          </div>
+      </nav>
+  <div>
+          <input type="checkbox" id="sidebar-toggle">
+          <label for="sidebar-toggle" class="sidebar__toggle">☰</label>
+
+      <aside class="sidebar">
+          <ul class="sidebar__items">
+              {% if user.is_active %}
+              <li class="sidebar__item"><a href="{% url 'app:council_fire' user %}">Home</a></li>
+              {% else %}
+              <li class="sidebar__item"><a href="{% url 'index' %}">Home</a></li>
+              {% endif %}
+              {% if user.is_authenticated %}
+              <li class="sidebar__item"><a href="{% url 'app:registerevent' %}">Register</a></li>
+              {% endif %}
+          </ul>
+      </aside>
+
+      <div class="news">
+          {% block body_block %}
+          {% endblock %}
+      </div>
+  </div>
+  {% if user.is_authenticated %}
+    <script>var bookadd_url = "{% url 'app:register' %}"
+            var bookrem_url = "{% url 'app:unregister' %}"</script>
+    <script src="{% static 'js/bookmark.js' %}"></script>
+  {% endif %}
+
+  <!-- <script src="{% static 'js/animate-form.js' %}"></script> -->
+  <script src="{% static 'js/animate-resultcards.js' %}"></script>
+  <script src="{% static 'js/createEvent.js' %}"></script>
+  </body>
+</html>
