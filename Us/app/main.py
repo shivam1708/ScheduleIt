@@ -14,7 +14,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-import pyscreenshot as ImageGrab
 
 fromaddr = "teamanything98@gmail.com"
 
@@ -27,7 +26,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = ""
+password = "test123"
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -517,8 +516,8 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
     check :meta , add params
     '''
     #mm/dd/yyyy/hh:mm:am   
-    date_from = df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
-    date_to = dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
+    date_from = df + "00:-05:30" # df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
+    date_to = dt + "00:-05:30" # dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
     event = {
         'summary': title,
         'location': location,
@@ -560,5 +559,5 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
 
 def create_qrcode(name,eventname):
     import pyqrcode
-    qr = pyqrcode.create("Name: "+name+" \nApproved: Yes \n "+"Event Name: "+eventname)     # expand
+    qr = pyqrcode.create("Name: "+name+" \nApproved: Yes \n" + "Event Name: "+eventname)     # expand
     qr.png(name+"-"+eventname+"-qr.png", scale=5)
