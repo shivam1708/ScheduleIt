@@ -27,7 +27,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = "test123"
+password = ""
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -345,12 +345,24 @@ def remove_event(name):
         refresh(user)
         event=db.child("event").get(user['idToken']).val()
     temp=event[name]
-    del event(name)
+    del event[name]
     try:
         db.child("event").set(event,user['idToken'])
     except:
         refresh(user)
         db.child("event").set(event,user['idToken'])
+    try:
+        council_email = db.child("users").get(user["idToken"]).val()
+    except:
+        refresh(user)
+        council_email = db.child("users").get(user["idToken"]).val()
+    council_email = council_email[temp[0]]["email-id"]
+    title = temp[1]
+    location = temp[7]
+    description = temp[2]
+    date_from = temp[5]
+    date_to = temp[6]
+    add_remove_events("del",council_email,title,location,description,date_from,date_to)
 
 def extra(username):
     users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
@@ -467,7 +479,12 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
         orderBy='startTime').execute()
 
     events = eventsResult.get('items', [])
-    print(events)
+    if flag == "del":
+        for event in events:
+            if event["summary"] == title:
+                service.events().delete(calendarId='primary', eventId=event["id"]).execute()
+                return 
+
     created_event = service.events().quickAdd(
     calendarId='primary',
     text='Appointment at Somewhere on June 3rd 10am-10:25am').execute()
@@ -508,8 +525,6 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
 
     if flag == "add":
         event = service.events().insert(calendarId='primary', body=event).execute()
-    else:
-        service.events().delete(calendarId='primary', eventId='').execute()
 
     '''
     if not events:
