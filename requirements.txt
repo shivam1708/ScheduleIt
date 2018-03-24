@@ -1,6 +1,6 @@
 httplib2
 django==1.11.3
 pyrebase
-smtplib
 pyscreenshot
 pyqrcode
+google-api-python-client==1.5.3
