@@ -34,7 +34,7 @@ def student_add(request):
     return HttpResponseRedirect(reverse('app:subscribed'))
 
 def subscribed(request):
-    listo = main.extra(str(request.user))
+    listo = subscribe.extra(str(request.user))
     print(listo)
     return render(request,'app/list.html',{'listo':listo})
 
@@ -44,9 +44,12 @@ def student_showsub(request):
     li=main.show_booked(str(request.user))
         #print(li)
     for i in li:
-            src.append([i[0],i[1],i[2]])
-            #desc.append(summ)
-            print(len(src))
+        try:
+            src.append([i,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10]])
+        except:
+            pass
+        #desc.append(summ)
+    print(len(src))
 
     return render(request,'app/show.html',{'src':src})
     #return render(request,'basic_app/user_page.html',{'src':src})
@@ -61,9 +64,32 @@ def student_browse(request):
     src = []
     li=main.browser(source)
     for el in li:
-        src.append([source,el[0],el[1],el[2]])
+        try:
+            src.append([i,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10]])
+        except:
+            pass
     print(len(src))
     return render(request,'app/browse.html',{'src':src})
+
+def register(request):
+    print("hello")
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        main.Register(str(request.user),searched)
+        #print(searched)
+    return HttpResponse("done")
+    #return HttpResponseRedirect(reverse('app:mylist'))
+
+def unregister(request):
+    print("hello3")
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        print(searched)
+        main.unRegister(str(request.user),searched)
+        #print(searched)
+        #print(searched)
+    return HttpResponseRedirect(reverse('app:mylist'))
+
 
 @login_required
 def student_fire(request,id):
