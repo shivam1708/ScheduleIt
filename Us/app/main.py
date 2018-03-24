@@ -232,7 +232,7 @@ def show_booked(username):
             return []
 
 
-def create_request(name,a,b,c,d):
+def create_request(name,a,b,c,d,e,f,g,h,i,j):
 	data={}
 	try:
 		events=db.get(user['idToken'])
@@ -242,7 +242,7 @@ def create_request(name,a,b,c,d):
 	if 'requests' in events.val().keys():
 		lis=events.val()['requests']
 		print(lis)
-		lis[name]=[a,b,c,d]
+		lis[name]=[name,a,b,c,d,e,f,g,h,i,j]
 		print(lis)
 		try:
 			db.child("requests").update(lis,user['idToken'])
@@ -252,6 +252,27 @@ def create_request(name,a,b,c,d):
 	else:
 		data[name]=[a,b,c,d]
 		db.child("requests").set(data,user['idToken'])
+
+def create_notice(name,a,b,c,d):
+    data={}
+    try:
+        events=db.get(user['idToken'])
+    except:
+        refresh(user)
+        events=db.get(user['idToken'])
+    if 'requests' in events.val().keys():
+        lis=events.val()['requests']
+        print(lis)
+        lis[name]=[a,b,c,d]
+        print(lis)
+        try:
+            db.child("requests").update(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child("requests").update(lis,user['idToken'])
+    else:
+        data[name]=[a,b,c,d]
+        db.child("requests").set(data,user['idToken'])
 
 def approve_request(a):
     temp=[]
