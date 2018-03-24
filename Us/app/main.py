@@ -26,8 +26,8 @@ config={
 }
 
 
-email=""
-password=""
+email="teamanything98@gmail.com"
+password="test123"
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -336,11 +336,6 @@ def send_ticket(email_id):
     im.save("screenshot.png")
     send_mail(subject="Your Tickets",body_text="PFA",toaddr=email_id)
 
-try:
-    import argparse
-    flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-except ImportError:
-    flags = None
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
@@ -350,6 +345,11 @@ APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 
 
 def get_credentials():
+    try:
+        import argparse
+        flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+    except ImportError:
+        flags = None
     """Gets valid user credentials from storage.
 
     If nothing has been stored, or if the stored credentials are invalid,
