@@ -378,6 +378,23 @@ def approve_request(a):
     send_text_mail(subject=subject_text,body_text=body,toaddr=council_email)
     add_remove_events("add",council_email,title,location,description,date_from,date_to)
 
+def decline_request(a):
+    temp=[]
+    try:
+        events=db.get(user['idToken'])
+    except:
+        refresh(user)
+        events=db.get(user['idToken'])
+    if 'requests' in events.val().keys():
+        lis=events.val()['requests']
+        temp=lis[a]
+        del lis[a]
+        try:
+            db.child('requests').set(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child('requests').set(lis,user['idToken'])
+
 def remove_event(name):
     try:
         event=db.child("event").get(user['idToken']).val()
