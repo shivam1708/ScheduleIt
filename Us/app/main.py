@@ -136,9 +136,10 @@ def show_req():
 def unRegister(username,event):
     try:
         data={}
+        print(sender_id)
         users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
         if(len(users.each())):#check if entry exists
-            data=users.val()[username]
+       	    data=users.val()[username]
             #print(data)
             if "pin" in data.keys():
                 #print("here")
@@ -336,6 +337,9 @@ def approve_request(a):
     description = temp[2]
     date_from = temp[5]
     date_to = temp[6]
+    subject_text = "Approval results of your event "
+    body = "Your event : " + title + " has been approved and can now be successfully hosted"
+    send_text_mail(subject=subject_text,body_text=body,toaddr=council_email)
     add_remove_events("add",council_email,title,location,description,date_from,date_to)
 
 def remove_event(name):
@@ -362,6 +366,9 @@ def remove_event(name):
     description = temp[2]
     date_from = temp[5]
     date_to = temp[6]
+    subject_text = "Approval results of your event "
+    body = "Unfortunately , your event : " + titile + " cannot be hosted as approved by our admin. "
+    send_text_mail(subject=subject_text,body_text=body,toaddr=council_email)
     add_remove_events("del",council_email,title,location,description,date_from,date_to)
 
 def extra(username):
@@ -369,7 +376,6 @@ def extra(username):
     if(len(users.each())):#check if entry exists
         lis=users.val()[username]['sub']
         return lis
-
 
 #### notification s
 def send_sms(name,event):
@@ -385,6 +391,24 @@ def send_sms(name,event):
     my_message = "Hi, " + name + "\nYou're successfully registered for :" + event
     query.send(contact_number,my_message) # recipient = receiver's number
     query.Logout()
+
+def send_text_mail(subject,body_text,toaddr="nishchith.s@somaiya.edu"):
+    msg = MIMEMultipart()
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(body_text,'plain'))
+
+    server = smtplib.SMTP('smtp.gmail.com', 587) #465 or 587 open
+    server.starttls()
+
+    # your login details
+    server.login(fromaddr, "@randombits98")
+    text = msg.as_string()
+    server.sendmail(fromaddr, toaddr, text)
+    print("Text email sent successfully")
+    server.quit()
 
 def send_mail(subject,body_text,location,toaddr = "nishchith.s@somaiya.edu"):
     msg = MIMEMultipart()
@@ -408,6 +432,7 @@ def send_mail(subject,body_text,location,toaddr = "nishchith.s@somaiya.edu"):
     s.login(fromaddr, "@randombits98")
     text = msg.as_string()
     s.sendmail(fromaddr, toaddr, text)
+    print("Text email sent successfully")
     s.quit()
 
 def send_ticket(name,event):
@@ -421,7 +446,6 @@ def send_ticket(name,event):
     print(email_id)
     location = name+"-"+event+"-qr.png"
     send_mail(subject="Your Confirmed Tickets for : "+event,body_text="PFA, \n regards",toaddr=email_id,location = location)
-
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
