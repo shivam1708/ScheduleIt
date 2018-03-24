@@ -122,7 +122,7 @@ def Register(username,event):
     except:
         refresh(user)
         db.child("event").child(event).set(eventup,user['idToken'])
-    
+
 
 def show_req():
     try:
@@ -233,26 +233,27 @@ def show_booked(username):
             return []
 
 
-def create_request(name,a,b,c,d,e,f,g,h,i,j):
-	data={}
-	try:
-		events=db.get(user['idToken'])
-	except:
-		refresh(user)
-		events=db.get(user['idToken'])
-	if 'requests' in events.val().keys():
-		lis=events.val()['requests']
-		print(lis)
-		lis[name]=[name,a,b,c,d,e,f,g,h,i,j]
-		print(lis)
-		try:
-			db.child("requests").update(lis,user['idToken'])
-		except:
-			refresh(user)
-			db.child("requests").update(lis,user['idToken'])
-	else:
-		data[name]=[a,b,c,d]
-		db.child("requests").set(data,user['idToken'])
+def create_request(name,a,b,c,d,e,f,g,h,i,j,k):
+    data={}
+    try:
+        events=db.get(user['idToken']).val()
+    except:
+        refresh(user)
+        events=db.get(user['idToken']).val()
+    print(events)
+    if 'requests' in events.keys():
+        lis=events['requests']
+        print(lis)
+        lis[str(name)]=[str(name),str(a),str(b),str(c),str(d),str(e),str(f),str(g),str(h),str(i),str(j)]
+        print(lis)
+        try:
+            db.child("requests").update(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child("requests").update(lis,user['idToken'])
+    else:
+        data[name]=[a,b,c,d]
+        db.child("requests").set(data,user['idToken'])
 
 def create_notice(name,a,b,c,d):
     data={}
@@ -506,7 +507,7 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
         for event in events:
             if event["summary"] == title:
                 service.events().delete(calendarId='primary', eventId=event["id"]).execute()
-                return 
+                return
 
     created_event = service.events().quickAdd(
     calendarId='primary',
@@ -516,7 +517,7 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
     '''
     check :meta , add params
     '''
-    #mm/dd/yyyy/hh:mm:am   
+    #mm/dd/yyyy/hh:mm:am
     date_from = df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
     date_to = dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
     event = {

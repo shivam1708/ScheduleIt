@@ -1,0 +1,21 @@
+{% extends 'app/base2.html' %}
+{% block body_block %}
+{% if registered %}
+  <h1>Thank You For Registering</h1>
+{% else %}
+  <form action="{% url 'app:registerevent'%}" method="post">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Event name">
+    <input type="text" name="short" placeholder="Short Description">
+    <input type="text" name="long" placeholder="Description">
+    <input type="text" name="pre" placeholder="Prerequisites">
+    <input type="datetime-local" name="indate" placeholder="Date of event">
+    <input type="datetime-local" name="outdate" placeholder="End Date of event">
+    <input type="text" name="location" placeholder="Venue">
+    <input type="text" name="image" placeholder="PosterUrl">
+    <input type="text" name="cost" placeholder="Cost">
+    <input type="text" name="payment" placeholder="Payment Gateway">
+    <button type="submit" value="GetNews"><i class="fa fa-search"></i>SUBMIT</button>
+  </form>
+{% endif %}
+{% endblock %}
