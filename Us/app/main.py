@@ -27,7 +27,7 @@ config={
 
 
 email="teamanything98@gmail.com"
-password="test123"
+password=""
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -222,6 +222,8 @@ def show_booked(username):
             return result
         else:
             return []
+
+
 def create_request(name,a,b,c,d):
 	data={}
 	try:
