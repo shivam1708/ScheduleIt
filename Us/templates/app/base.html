@@ -73,9 +73,13 @@
           {% endblock %}
       </div>
   </div>
+  {% if user.is_authenticated %}
+    <script>var bookadd_url = "{% url 'app:register' %}"
+            var bookrem_url = "{% url 'app:unregister' %}"</script>
+    <script src="{% static 'js/bookmark.js' %}"></script>
+  {% endif %}
 
   <!-- <script src="{% static 'js/animate-form.js' %}"></script> -->
   <script src="{% static 'js/animate-resultcards.js' %}"></script>
-  <script src="{% static 'js/bookmark.js' %}"></script>
   </body>
 </html>

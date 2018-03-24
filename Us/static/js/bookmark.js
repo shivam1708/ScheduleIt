@@ -17,7 +17,7 @@ function getCookie(name) {
 // console.log(bookmark);
 function preLoad(){
     bookmark.forEach(function(elem,index){
-    var link=document.getElementsByClassName("fa-newspaper-o")[index].href;
+    var link=document.getElementsByClassName("summarycard__heading")[index].textContent;
     console.log(link,Cookies.get(link));
         if(Cookies.get(link)==="true"){
             elem.classList.remove("fa-bookmark-o");
@@ -27,12 +27,13 @@ function preLoad(){
 };
 
 bookmark.forEach(function(elem,index){
-    var link=document.getElementsByClassName("fa-newspaper-o")[index].href;
+    var link=document.getElementsByClassName("summarycard__heading")[index].textContent;
     // Cookies.set(link,false);
 	elem.addEventListener("click", function(e){
 		e.preventDefault();
         console.log(Cookies.get(link));
 		if (Cookies.get(link)==="false"){
+            console.log("xxxxxxxxxAAxxxxxx");
             Cookies.set(link,true);
 			elem.classList.remove("fa-bookmark-o");
 			elem.classList.add("fa-bookmark");
@@ -49,11 +50,12 @@ bookmark.forEach(function(elem,index){
             });
 		}
 		else {
+            console.log("aaaaaaaaaaaaaaaaaa");
             Cookies.set(link,false);
 			elem.classList.remove("fa-bookmark");
 			elem.classList.add("fa-bookmark-o");
             $.ajax({
-                url: bookadd_url,    //Your api url
+                url: bookrem_url,    //Your api url
                 type: 'POST',   //type is any HTTP method
                 data: {
                     add: link,
