@@ -121,7 +121,7 @@ def Register(username,event):
     except:
         refresh(user)
         db.child("event").child(event).set(eventup,user['idToken'])
-    
+
 
 def show_req():
     try:
@@ -505,7 +505,7 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
         for event in events:
             if event["summary"] == title:
                 service.events().delete(calendarId='primary', eventId=event["id"]).execute()
-                return 
+                return
 
     created_event = service.events().quickAdd(
     calendarId='primary',
@@ -515,7 +515,7 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
     '''
     check :meta , add params
     '''
-    #mm/dd/yyyy/hh:mm:am   
+    #mm/dd/yyyy/hh:mm:am
     date_from = df + "00:-05:30" # df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
     date_to = dt + "00:-05:30" # dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
     event = {

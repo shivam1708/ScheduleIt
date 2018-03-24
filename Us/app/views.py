@@ -246,7 +246,7 @@ def council_fire(request,id):
     for el in li:
         try:
             #print(el[11])  count
-            src.append([id,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10],el[11]])
+            src.append([el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10],el[11]])
         except:
             pass
     print(len(src))
@@ -344,10 +344,22 @@ def admin_user_logout(request):
 
 @login_required
 def admin_fire(request,id):
-    if str(id)==str(request.user):
-        return render(request,'app/adminuser.html',{'name':str(id)})
-    else:
-        return HttpResponse("Cannot access")
+    print("Hello")
+    li = main.show_req()
+    #print(li)
+    src=[]
+    for i in li.keys():
+        #print(i)
+        try:
+            #print([i,li[i][1],li[i][2],li[i][3],li[i][4],li[i][5],li[i][6],li[i][7],li[i][8],li[i][9],li[i][10]])
+            src.append([i,li[i][1],li[i][2],li[i][3],li[i][4],li[i][5],li[i][6],li[i][7],li[i][8],li[i][9],li[i][10]])
+        except:
+            pass
+            #desc.append(summ)
+    print(len(src))
+
+    #return render(request,'app/studentuser.html',{'src':src})
+    return render(request,'app/adminuser.html',{'src':src})
 
 def admin_user_login(request):
 
