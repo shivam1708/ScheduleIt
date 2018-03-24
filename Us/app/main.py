@@ -4,13 +4,10 @@ from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
-import re,math,sys
+import re,math,sys,random,os, datetime,time
 import pyrebase
 from collections import Counter
-import os, datetime
-import random
 import hashlib
-import time
 import pandas as pd
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -18,7 +15,6 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import pyscreenshot as ImageGrab
-import time
 
 fromaddr = "teamanything98@gmail.com"
 
@@ -272,8 +268,6 @@ def send_ticket(email_id):
     im.save("screenshot.png")
     send_mail(subject="Your Tickets",body_text="PFA",toaddr=email_id)
 
-
-
 try:
     import argparse
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
@@ -379,3 +373,8 @@ def add_remove_events():
         start = event['start'].get('dateTime', event['start'].get('date'))
         print(start, event['summary'])
     '''
+
+def create_qrcode(name,eventname):
+    import pyqrcode
+    qr = pyqrcode.create('Name: Nishchith Shetty \nApproved: Yes \nUnique Hash : sha256#123')
+    qr.png('famous-joke.png', scale=5)
