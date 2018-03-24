@@ -187,6 +187,28 @@ def generate_feed(username):
         else:
             return {}
 
+def create_placement(name,a,b,c,d,e,f,g):
+    data={}
+    try:
+        events=db.get(user['idToken']).val()
+    except:
+        refresh(user)
+        events=db.get(user['idToken']).val()
+    if 'Placement' in events.keys():
+        lis=events['Placement']
+        print(lis)
+        lis[name]=[a,b,c,d,e,f]
+        print(lis)
+        try:
+            db.child("Placement").set(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child("Placement").set(lis,user['idToken'])
+    else:
+        data[name]=[a,b,c,d,e,f]
+        db.child("Placement").set(data,user['idToken'])
+
+
 def browser(council):
     try:
         articles_per_source = db.child("council").get(user['idToken']).val()
