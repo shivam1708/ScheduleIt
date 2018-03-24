@@ -136,10 +136,9 @@ def show_req():
 def unRegister(username,event):
     try:
         data={}
-        print(sender_id)
         users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
         if(len(users.each())):#check if entry exists
-       	    data=users.val()[username]
+            data=users.val()[username]
             #print(data)
             if "pin" in data.keys():
                 #print("here")
