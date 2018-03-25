@@ -9,6 +9,7 @@ urlpatterns=[
     url(r'^add/$',views.student_add,name='student_add'),
     url(r'^remove/$',views.student_remove,name='student_remove'),
     url(r'^subscribed/$',views.subscribed,name='subscribed'),
+    url(r'^calender/$',views.calender,name='calender'),
     url(r'^register/$',views.register,name='register'),
     url(r'^unregister/$',views.unregister,name='unregister'),
     url(r'^registerevent/$',views.registerevent,name='registerevent'),
