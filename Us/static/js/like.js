@@ -1,5 +1,6 @@
 var like = Array.from(document.getElementsByClassName("like"));
-var dislike = Array.from(document.getElementsByClassName("dislike"));
+var unlike = Array.from(document.getElementsByClassName("unlike"));
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -20,7 +21,7 @@ like.forEach(function(elem,index){
     var link=document.getElementsByClassName("summarycard__heading")[index].textContent;
     elem.addEventListener("click", function(e){
 		e.preventDefault();
-            console.log("xxxxxxxxxAAxxxxxx");
+            console.log(link,"likey");
             $.ajax({
                 url: like_url,    //Your api url
                 type: 'POST',   //type is any HTTP method
@@ -32,14 +33,15 @@ like.forEach(function(elem,index){
                 }
             });
 });
+});
 
-dislike.forEach(function(elem,index){
+unlike.forEach(function(elem,index){
     var link=document.getElementsByClassName("summarycard__heading")[index].textContent;
     elem.addEventListener("click", function(e){
 		e.preventDefault();
-            console.log("11111111111xxxxxxxxxAAxxxxxx");
+            console.log(link,"unlike");
             $.ajax({
-                url: remove_url,    //Your api url
+                url: unlike_url,    //Your api url
                 type: 'POST',   //type is any HTTP method
                 data: {
                     add: link,
@@ -48,4 +50,5 @@ dislike.forEach(function(elem,index){
                 success: function () {
                 }
             });
+});
 });

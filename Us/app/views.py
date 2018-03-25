@@ -89,6 +89,17 @@ def register(request):
     return HttpResponse("done")
     #return HttpResponseRedirect(reverse('app:mylist'))
 
+def likey(request):
+    print("hellolikey")
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        print(searched,"likey!!!")
+        main.like(searched)
+        #return redirect(u)
+        #print(searched)
+    return HttpResponse("done")
+    #return HttpResponseRedirect(reverse('app:mylist'))
+
 def addEvent(request):
     print("hello")
     if request.method == 'POST':
@@ -106,6 +117,17 @@ def unregister(request):
         main.unRegister(str(request.user),searched)
         #print(searched)
     return HttpResponseRedirect(reverse('app:student_showsub'))
+
+def unlikey(request):
+    print("hello3unlikey")
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        # print(searched,"shivamxxxxxxxxxxxxxxxxxxxxxxx")
+        main.unlike(searched)
+        #print(searched)
+    return HttpResponse("unliked")
+    # return HttpResponseRedirect(reverse('app:student_showsub'))
+
 
 def removeEvent(request):
     print("hello3")
