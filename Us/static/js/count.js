@@ -17,7 +17,7 @@ events.forEach(function(elem,index){
             {
                 data: [registered[index],120-registered[index]],
                 backgroundColor: [
-                    "#FF6384",
+                    "#F57F17",
                     "#6384FF"
                 ]
             }],

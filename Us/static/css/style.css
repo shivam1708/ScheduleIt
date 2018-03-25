@@ -7,7 +7,7 @@
   box-sizing: inherit; }
 
 :root {
-  --color-primary: #f56a6a;
+  --color-primary: #f57f17;
   --color-white: #fff;
   --color-white-dark: #ddd;
   --color-black: #222;
@@ -534,6 +534,13 @@ input:checked + .slider:before {
   margin: 2rem auto;
   box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.5); }
 
+.thankyou {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+
 .createEvent {
   box-shadow: 0 1rem 2rem 0 rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -673,3 +680,13 @@ input:checked + .slider:before {
   .alert__site {
     font-size: 2rem;
     font-weight: 900; }
+
+.canvasContent {
+  width: 700px;
+  height: 500px;
+  margin: 2rem auto; }
+
+.canvasContent1 {
+  width: 700px;
+  height: 500px;
+  margin: 2rem auto; }

@@ -27,7 +27,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = "test123"
+password = ""
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -226,16 +226,20 @@ def generate_feed(username):
             return {}
 
 def browser(council):
+    print(council)
     try:
         articles_per_source = db.child("council").get(user['idToken']).val()
         Uarticle = db.child("event").get(user['idToken']).val()
     except:
         refresh(user)
-        generate_feed(username)
+        browser(council)
     li=[]
     if council!=None:
+        print(articles_per_source.keys())
         if council in articles_per_source.keys():
+            print("qqq")
             lent=len(articles_per_source[council])
+            print(lent)
             hashes=articles_per_source[council][-min(lent,9):]
             for hashe in hashes:
                 try:
