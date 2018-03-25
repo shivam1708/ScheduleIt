@@ -313,6 +313,8 @@ def council_fire(request,id):
     #     return HttpResponse("Cannot access")
 def councilwater(request):
     src=[]
+    id=str(request.user)
+    print(id)
     li=main.browser(id)
     print(li)
     for el in li:
@@ -320,7 +322,7 @@ def councilwater(request):
             src.append([el[1],el[12],el[13],el[14]])
         except:
             pass
-    print(len(src))
+    print((src))
     return render(request,'app/councilwater.html',{'src':src})
 
 @login_required
