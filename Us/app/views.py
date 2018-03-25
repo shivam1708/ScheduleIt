@@ -101,7 +101,6 @@ def unregister(request):
         searched = request.POST.get('add')
         print(searched,"shivamxxxxxxxxxxxxxxxxxxxxxxx")
         main.unRegister(str(request.user),searched)
-        print(searched)
         #print(searched)
     return HttpResponseRedirect(reverse('app:student_showsub'))
 
