@@ -27,7 +27,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = ""
+password = "test123"
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -154,7 +154,7 @@ def Register(username,event):
         refresh(user)
         users=db.child("event").get(user['idToken']).val()
     eventup=users[event]
-    eventup[-1]=str(int(eventup[-1])+1)
+    eventup[-4]=str(int(eventup[-4])+1)
     try:
         db.child("event").child(event).set(eventup,user['idToken'])
     except:
@@ -334,7 +334,7 @@ def approve_request(a):
     except:
         refresh(user)
         events=db.get(user['idToken'])
-    temp.append('0')
+    temp += ['0','0','0','0']
     if 'event' in events.val().keys():
         lis=events.val()['event']
         lis[a]=temp
