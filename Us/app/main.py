@@ -14,6 +14,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from textblob import TextBlob
 
 fromaddr = "teamanything98@gmail.com"
 
@@ -635,3 +636,11 @@ def create_qrcode(name,eventname):
     import pyqrcode
     qr = pyqrcode.create("Name: "+str(name)+" \nApproved: Yes \n" + "Event Name: "+str(eventname))     # expand
     qr.png(str(name)+"-"+str(eventname)+"-qr.png", scale=5)
+
+
+def sent_text(text):
+    blob = TextBlob(text)
+    scores = 0
+    for sentence in blob.sentences:
+        scores += sentence.sentiment.polarity
+    return scores/len(blob.sentences)
