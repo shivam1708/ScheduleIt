@@ -1,7 +1,25 @@
 {% extends 'app/base2.html' %}
-
+{% load staticfiles %}
 {% block body_block %}
+<script>
+  var workshops=[];
+  var likes=[];
+  var dislikes=[];
+  var polarity=[];
+</script>
   {% for i in src %}
-
+  <script>
+    workshops.push("{{i.0}}")
+    likes.push({{i.1}})
+    dislikes.push({{i.2}})
+    polarity.push({{i.3}})
+  </script>
   {% endfor %}
+  <div class="canvasContent">
+    <canvas id="eventStat"></canvas>
+  </div>
+  <div class="canvasContent1">
+      <canvas id="eventStat1"></canvas>
+    </div>
+  <script src="{% static 'js/createStat.js' %}"></script>
 {% endblock %}
