@@ -1,19 +1,22 @@
+{% extends 'app/base2.html' %}
 {% block body_block %}
-<div class="center">
-      <h2>Login Here</h2>
-      <form  action="{% url 'app:council_user_login'%}" method="post">
+<div class="createEvent">
+    <h2>Login</h2>
+    <form action="{% url 'app:council_user_login'%}" method="post">
         {% csrf_token %}
-        <div class="form-group">
-          <input class="form-control" type="text" name="username" id="username">
-          <label for="username">Username</label>
+        <div class="createEvent__group">
+            <label for="username">Username</label><br>
+            <input type="text" name="username" id="username">
         </div>
-        <div class="form-group">
-          <input class="form-control" type="password" name="password" id="password">
-          <label for="password">Password</label>
+        <div class="createEvent__group">
+            <label for="password">Password</label><br>
+            <input type="password" name="password" id="password">
         </div>
-        <input type="submit" value="Login">
-      </form>
-      <h1>Or</h1>
-      <a href="{% url 'app:council_register' %}">Register Here</a>
-    </div>
+        <div class="createEvent__group">
+            <input type="submit" class="createEvent__submit" value="Login">
+        </div>
+    </form>
+    <h2>Or</h2>
+    <a href="{% url 'app:council_register' %}">Register Here</a>
+  </div>
 {% endblock %}

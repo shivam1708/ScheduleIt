@@ -452,6 +452,9 @@ body {
 .fa-twitter {
   color: #00aced; }
 
+.fa-times-circle {
+  color: firebrick; }
+
 .summary {
   background-color: var(--color-white-dark);
   position: absolute;
@@ -637,3 +640,35 @@ input:checked + .slider:before {
     text-align: center;
     text-decoration: underline;
     margin-bottom: 2rem; }
+
+.alert {
+  background-color: var(--color-white-dark);
+  width: 700px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+  transition: all .3s linear; }
+  .alert:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1rem 2rem 0 rgba(0, 0, 0, 0.5); }
+  .alert__company {
+    font-size: 2.5rem;
+    font-weight: 900; }
+  .alert__spots {
+    text-align: right;
+    font-size: 2rem; }
+    .alert__spots span {
+      color: forestgreen; }
+  .alert__position {
+    font-size: 2rem; }
+  .alert__descr {
+    font-size: 1.6rem;
+    margin: 2rem; }
+    .alert__descr span {
+      color: firebrick; }
+  .alert__date {
+    font-size: 2rem; }
+  .alert__site {
+    font-size: 2rem;
+    font-weight: 900; }

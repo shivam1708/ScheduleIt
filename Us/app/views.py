@@ -83,6 +83,15 @@ def register(request):
     return HttpResponse("done")
     #return HttpResponseRedirect(reverse('app:mylist'))
 
+def addEvent(request):
+    print("hello")
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        main.approve_request(searched)
+        #print(searched)
+    return HttpResponse("done")
+    #return HttpResponseRedirect(reverse('app:mylist'))
+
 def unregister(request):
     print("hello3")
     if request.method == 'POST':
@@ -92,6 +101,17 @@ def unregister(request):
         print(searched)
         #print(searched)
     return HttpResponseRedirect(reverse('app:student_showsub'))
+
+def removeEvent(request):
+    print("hello3")
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        print(searched,"shivamxxxxxxxxxxxxxxxxxxxxxxx")
+        main.decline_request(searched)
+        print(searched)
+        #print(searched)
+    # return HttpResponseRedirect(reverse('app:admin_fire'))
+    return HttpResponse("removed")
 
 
 @login_required
@@ -375,7 +395,7 @@ def admin_fire(request,id):
         #print(i)
         try:
             #print([i,li[i][1],li[i][2],li[i][3],li[i][4],li[i][5],li[i][6],li[i][7],li[i][8],li[i][9],li[i][10]])
-            src.append([i,li[i][1],li[i][2],li[i][3],li[i][4],li[i][5],li[i][6],li[i][7],li[i][8],li[i][9],li[i][10]])
+            src.append([li[i][0],li[i][1],li[i][2],li[i][3],li[i][4],li[i][5],li[i][6],li[i][7],li[i][8],li[i][9],li[i][10]])
         except:
             pass
             #desc.append(summ)
