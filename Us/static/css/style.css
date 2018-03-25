@@ -690,3 +690,39 @@ input:checked + .slider:before {
   width: 700px;
   height: 500px;
   margin: 2rem auto; }
+
+.welcome {
+  color: var(--color-black);
+  cursor: pointer;
+  font-size: 1.8rem;
+  border: 1px solid var(--color-primary);
+  display: inline-block;
+  padding: 1rem;
+  transition: .3s all linear;
+  color: var(--color-black);
+  border-radius: 5px;
+  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%); }
+  .welcome:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    transform: translate(-50%, calc(-50% - 5px));
+    box-shadow: 0 0.5rem 2rem 0 rgba(0, 0, 0, 0.3); }
+  .welcome:nth-child(1) {
+    left: 25%; }
+  .welcome:nth-child(2) {
+    left: 50%; }
+  .welcome:nth-child(3) {
+    left: 75%; }
+
+.logoTitle {
+  font-family: Sofia;
+  font-size: 6rem;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center; }
