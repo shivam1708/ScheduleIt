@@ -681,10 +681,17 @@ def create_qrcode(name,eventname):
     qr = pyqrcode.create("Name: "+str(name)+" \nApproved: Yes \n" + "Event Name: "+str(eventname))     # expand
     qr.png(str(name)+"-"+str(eventname)+"-qr.png", scale=5)
 
-
 def sent_text(text):
-    blob = TextBlob(text)
-    scores = 0
-    for sentence in blob.sentences:
-        scores += sentence.sentiment.polarity
-    return scores/len(blob.sentences)
+    import json
+    import nltk
+    from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+    text = nltk.sent_tokenize(text) # this gives us a list of sentences
+    sid = SentimentIntensityAnalyzer()
+    print(text)
+    score = 0
+    for s in text:
+        js = sid.polarity_scores(s)
+        score += js['pos']
+        score -= js['neg']
+    return score/len(text)
