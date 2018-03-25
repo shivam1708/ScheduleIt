@@ -14,7 +14,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-#from textblob import TextBlob
+from textblob import TextBlob
 
 fromaddr = "teamanything98@gmail.com"
 
@@ -27,7 +27,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = "test123"
+password = ""
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
