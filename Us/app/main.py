@@ -14,6 +14,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from textblob import TextBlob
 
 fromaddr = "teamanything98@gmail.com"
 
@@ -454,11 +455,12 @@ def send_sms(name,event):
         users = db.child('users').get(user['idToken']).val()
     contact_number = users[name]["mobile"]
 
-    import SmsBot
-    query = SmsBot.sms("9820501130","password") # username is usually Mobile Number (Logging in)
+    from . import SmsBot
+    query = SmsBot.sms("9820501130","E6896N") # username is usually Mobile Number (Logging in)
     my_message = "Hi, " + name + "\nYou're successfully registered for :" + event
     query.send(contact_number,my_message) # recipient = receiver's number
     query.Logout()
+    print("Message Sent")
 
 def send_text_mail(subject,body_text,toaddr="nishchith.s@somaiya.edu"):
     msg = MIMEMultipart()
@@ -504,6 +506,8 @@ def send_mail(subject,body_text,location,toaddr = "nishchith.s@somaiya.edu"):
     s.quit()
 
 def send_ticket(name,event):
+    name = str(name)
+    event = str(event)
     create_qrcode(name,event)
     try :
         users = db.child('users').get(user['idToken']).val()
@@ -514,7 +518,8 @@ def send_ticket(name,event):
     print(email_id)
     location = name+"-"+event+"-qr.png"
     send_mail(subject="Your Confirmed Tickets for : "+event,body_text="PFA, \n regards",toaddr=email_id,location = location)
-
+    send_sms(name,event)
+    #return db.child('event').get(user['idToken']).val()[event][10]
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/calendar'
@@ -629,5 +634,13 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
 
 def create_qrcode(name,eventname):
     import pyqrcode
-    qr = pyqrcode.create("Name: "+name+" \nApproved: Yes \n" + "Event Name: "+eventname)     # expand
-    qr.png(name+"-"+eventname+"-qr.png", scale=5)
+    qr = pyqrcode.create("Name: "+str(name)+" \nApproved: Yes \n" + "Event Name: "+str(eventname))     # expand
+    qr.png(str(name)+"-"+str(eventname)+"-qr.png", scale=5)
+
+
+def sent_text(text):
+    blob = TextBlob(text)
+    scores = 0
+    for sentence in blob.sentences:
+        scores += sentence.sentiment.polarity
+    return scores/len(blob.sentences)

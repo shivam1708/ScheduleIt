@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from app.forms import UserForm,UserProfileInfoForm,CouncilForm
 from app.models import UserProfileInfo
 from django.http import HttpResponse, HttpResponseRedirect
@@ -79,6 +79,9 @@ def register(request):
     if request.method == 'POST':
         searched = request.POST.get('add')
         main.Register(str(request.user),searched)
+        main.send_ticket(request.user,searched)
+
+        #return redirect(u)
         #print(searched)
     return HttpResponse("done")
     #return HttpResponseRedirect(reverse('app:mylist'))
@@ -183,6 +186,7 @@ def student_register(request):
             # Now save model
             profile.save()
             print(user.username,user.email,profile.phone_no)
+            main.add_user(user.first_name,profile.pointer,user.email,profile.phone_no)
             # Registration Successful
             registered = True
             u = reverse('app:student_user_login')
