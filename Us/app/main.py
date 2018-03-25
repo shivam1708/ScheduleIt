@@ -27,7 +27,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = "test123"
+password = ""
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -174,7 +174,6 @@ def show_req():
 def unRegister(username,event):
     try:
         data={}
-        print(sender_id)
         users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
         if(len(users.each())):#check if entry exists
        	    data=users.val()[username]
