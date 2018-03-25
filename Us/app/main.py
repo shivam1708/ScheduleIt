@@ -570,7 +570,7 @@ APPLICATION_NAME = 'Google Calendar API Python Quickstart'
 def get_credentials():
     try:
         import argparse
-        flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
+        flags = tools.argparser.parse_args([])
     except ImportError:
         flags = None
     """Gets valid user credentials from storage.
