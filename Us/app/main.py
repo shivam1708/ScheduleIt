@@ -27,7 +27,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = ""
+password = "test123"
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -214,7 +214,7 @@ def generate_feed(username):
                 if i!=None:
                     if i in events_per_council.keys():
                         lent=len(events_per_council[i])
-                        hashes=events_per_council[i][-min(lent,4):]
+                        hashes=events_per_council[i][-min(lent,9):]
                         for hashe in hashes:
                         	try:
                         		li.append(event[hashe])

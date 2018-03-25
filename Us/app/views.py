@@ -280,6 +280,13 @@ def placement(request):
         registered = True
     return render(request,'app/placement.html',{'registered':registered})
 
+def placements(request):
+    li = main.show_placements(request.user)
+    src = []
+    for i in li.keys():
+        src.append([i,li[i][2],li[i][3],li[i][4],li[i][5],li[i][6]])
+    return render(request,'app/placements.html',{'src':src})
+
 def placementlist(request):
     li = main.show_placements(request.user)
     src = []
@@ -304,7 +311,17 @@ def council_fire(request,id):
     #     return render(request,'app/counciluser.html',{'name':str(id)})
     # else:
     #     return HttpResponse("Cannot access")
-
+def councilwater(request):
+    src=[]
+    li=main.browser(id)
+    print(li)
+    for el in li:
+        try:
+            src.append([el[1],el[12],el[13],el[14]])
+        except:
+            pass
+    print(len(src))
+    return render(request,'app/councilwater.html',{'src':src})
 
 @login_required
 def council_user_logout(request):

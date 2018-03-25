@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   </head>
   <body>
-    <div class="jumbotron">
+
+  
 
     <a href="{% url 'app:student_user_login' %}">Student</a>
     <a href="{% url 'app:council_user_login' %}">Council</a>
     <a href="{% url 'app:admin_user_login' %}">Admin</a>
-    <div class="jumbotron">
+
 
     {% block body_block %}
 
