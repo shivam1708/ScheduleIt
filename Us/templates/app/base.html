@@ -61,9 +61,10 @@
               <li class="sidebar__item"><a href="{% url 'index' %}">Home</a></li>
               {% endif %}
               {% if user.is_authenticated %}
-              <li class="sidebar__item"><a href="{% url 'app:student_showsub' %}">Show</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:student_showsub' %}">Going</a></li>
               <li class="sidebar__item"><a href="{% url 'app:student_enter' %}">Browse</a></li>
               <li class="sidebar__item"><a href="{% url 'app:subscribed' %}">Subscribed</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:calender' %}">Calender</a></li>
               {% endif %}
           </ul>
       </aside>
