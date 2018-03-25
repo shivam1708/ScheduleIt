@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Sofia" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="{% static 'js/cookie.js' %}"></script>
     <link rel="shortcut icon" type="image/png" href="img/favicon.png">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
@@ -56,14 +57,12 @@
       <aside class="sidebar">
           <ul class="sidebar__items">
               {% if user.is_active %}
-              <li class="sidebar__item"><a href="{% url 'app:student_fire' user %}">Home</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:council_fire' user %}">Home</a></li>
               {% else %}
               <li class="sidebar__item"><a href="{% url 'index' %}">Home</a></li>
               {% endif %}
               {% if user.is_authenticated %}
-              <li class="sidebar__item"><a href="{% url 'app:student_showsub' %}">Show</a></li>
-              <li class="sidebar__item"><a href="{% url 'app:student_enter' %}">Browse</a></li>
-              <li class="sidebar__item"><a href="{% url 'app:subscribed' %}">Subscribed</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:registerevent' %}">Register</a></li>
               {% endif %}
           </ul>
       </aside>
@@ -73,11 +72,6 @@
           {% endblock %}
       </div>
   </div>
-  {% if user.is_authenticated %}
-    <script>var bookadd_url = "{% url 'app:register' %}"
-            var bookrem_url = "{% url 'app:unregister' %}"</script>
-    <script src="{% static 'js/bookmark.js' %}"></script>
-  {% endif %}
 
   <!-- <script src="{% static 'js/animate-form.js' %}"></script> -->
   <script src="{% static 'js/animate-resultcards.js' %}"></script>

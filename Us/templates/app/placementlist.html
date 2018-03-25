@@ -1,0 +1,21 @@
+{% extends 'app/base3.html' %}
+
+{% block body_block %}
+<div class="result">
+    {% for i in src %}
+    <div class="alert">
+        <h2 class="alert__company">{{i.0}}</h2>
+        <h2 class="alert__position">{{i.2}}</h2>
+        <h2 class="alert__spots"><span>Spots Left: </span>{{i.1}}</h2>
+        <h2 class="alert__descr"><span>Description: </span>{{i.3}}</h2>
+        <h2 class="alert__date">{{i.4}}</h2>
+        <h2 class="alert__site">{{i.5}}</h2>
+        <div class="feature">
+            <ul class="feature__list feature__list--right">
+                <li class="feature__item"><a href="" title="Facebook Share"><i class="fa fa-plus"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock %}

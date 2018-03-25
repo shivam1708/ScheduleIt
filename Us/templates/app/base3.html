@@ -56,14 +56,13 @@
       <aside class="sidebar">
           <ul class="sidebar__items">
               {% if user.is_active %}
-              <li class="sidebar__item"><a href="{% url 'app:student_fire' user %}">Home</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:admin_fire' user %}">Home</a></li>
               {% else %}
               <li class="sidebar__item"><a href="{% url 'index' %}">Home</a></li>
               {% endif %}
               {% if user.is_authenticated %}
-              <li class="sidebar__item"><a href="{% url 'app:student_showsub' %}">Show</a></li>
-              <li class="sidebar__item"><a href="{% url 'app:student_enter' %}">Browse</a></li>
-              <li class="sidebar__item"><a href="{% url 'app:subscribed' %}">Subscribed</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:placement' %}">Add Placement</a></li>
+              <li class="sidebar__item"><a href="{% url 'app:placementlist' %}">Placement</a></li>
               {% endif %}
           </ul>
       </aside>
@@ -74,9 +73,9 @@
       </div>
   </div>
   {% if user.is_authenticated %}
-    <script>var bookadd_url = "{% url 'app:register' %}"
-            var bookrem_url = "{% url 'app:unregister' %}"</script>
-    <script src="{% static 'js/bookmark.js' %}"></script>
+    <script>var eventadd_url = "{% url 'app:addEvent' %}"
+            var eventrem_url = "{% url 'app:removeEvent' %}"</script>
+    <script src="{% static 'js/addEvent.js' %}"></script>
   {% endif %}
 
   <!-- <script src="{% static 'js/animate-form.js' %}"></script> -->

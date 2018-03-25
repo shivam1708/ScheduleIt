@@ -64,9 +64,11 @@ def student_browse(request):
         source=request.POST.get('inputurl2')
     src = []
     li=main.browser(source)
+    print("+++++++++++++++++++",source,"++++++++++++++++++")
+    print(li)
     for el in li:
         try:
-            src.append([i,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10]])
+            src.append([el[0],el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10]])
         except:
             pass
     print(len(src))
@@ -81,6 +83,15 @@ def register(request):
     return HttpResponse("done")
     #return HttpResponseRedirect(reverse('app:mylist'))
 
+def addEvent(request):
+    print("hello")
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        main.approve_request(searched)
+        #print(searched)
+    return HttpResponse("done")
+    #return HttpResponseRedirect(reverse('app:mylist'))
+
 def unregister(request):
     print("hello3")
     if request.method == 'POST':
@@ -90,6 +101,17 @@ def unregister(request):
         print(searched)
         #print(searched)
     return HttpResponseRedirect(reverse('app:student_showsub'))
+
+def removeEvent(request):
+    print("hello3")
+    if request.method == 'POST':
+        searched = request.POST.get('add')
+        print(searched,"shivamxxxxxxxxxxxxxxxxxxxxxxx")
+        main.decline_request(searched)
+        print(searched)
+        #print(searched)
+    # return HttpResponseRedirect(reverse('app:admin_fire'))
+    return HttpResponse("removed")
 
 
 @login_required
@@ -160,7 +182,7 @@ def student_register(request):
 
             # Now save model
             profile.save()
-
+            print(user.username,user.email,profile.phone_no)
             # Registration Successful
             registered = True
             u = reverse('app:student_user_login')
@@ -217,12 +239,66 @@ def student_user_login(request):
     else:
         return render(request, 'app/studentlogin.html', {})
 
+def registerevent(request):
+    registered = False
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        short = request.POST.get('short')
+        long = request.POST.get('long')
+        pre = request.POST.get('pre')
+        indate = request.POST.get('indate')
+        outdate = request.POST.get('outdate')
+        location = request.POST.get('location')
+        image = request.POST.get('image')
+        cost = request.POST.get('cost')
+        payment = request.POST.get('payment')
+        print(str(indate),str(outdate))
+        #do processing over
+        main.create_request(str(request.user),str(name),str(short),str(long),str(pre),str(indate),str(outdate),str(location),str(image),str(cost),str(payment))
+        registered = True
+    return render(request,'app/registerevent.html',{'registered':registered})
+
+def placement(request):
+    registered = False
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        pointer = request.POST.get('pointer')
+        year = request.POST.get('year')
+        no = request.POST.get('no')
+        pos = request.POST.get('pos')
+        desc = request.POST.get('desc')
+        date = request.POST.get('date')
+        url = request.POST.get('url')
+        #do processing over
+        main.create_placement(str(name),str(pointer),str(year),str(no),str(pos),str(desc),str(date),str(url))
+        registered = True
+    return render(request,'app/placement.html',{'registered':registered})
+
+def placementlist(request):
+    li = main.show_placements(request.user)
+    src = []
+    for i in li.keys():
+        src.append([i,li[i][2],li[i][3],li[i][4],li[i][5],li[i][6]])
+    return render(request,'app/placementlist.html',{'src':src})
+
 @login_required
 def council_fire(request,id):
-    if str(id)==str(request.user):
-        return render(request,'app/counciluser.html',{'name':str(id)})
-    else:
-        return HttpResponse("Cannot access")
+    src=[]
+    li=main.browser(id)
+    print(li)
+    for el in li:
+        try:
+            #print(el[11])  count
+            src.append([id,el[1],el[2],el[3],el[4],el[5],el[6],el[7],el[8],el[9],el[10],el[11]])
+        except:
+            pass
+    print(len(src))
+    return render(request,'app/counciluser.html',{'src':src})
+    # if str(id)==str(request.user):
+    #     return render(request,'app/counciluser.html',{'name':str(id)})
+    # else:
+    #     return HttpResponse("Cannot access")
+
 
 @login_required
 def council_user_logout(request):
@@ -311,10 +387,22 @@ def admin_user_logout(request):
 
 @login_required
 def admin_fire(request,id):
-    if str(id)==str(request.user):
-        return render(request,'app/adminuser.html',{'name':str(id)})
-    else:
-        return HttpResponse("Cannot access")
+    print("Hello")
+    li = main.show_req()
+    #print(li)
+    src=[]
+    for i in li.keys():
+        #print(i)
+        try:
+            #print([i,li[i][1],li[i][2],li[i][3],li[i][4],li[i][5],li[i][6],li[i][7],li[i][8],li[i][9],li[i][10]])
+            src.append([li[i][0],li[i][1],li[i][2],li[i][3],li[i][4],li[i][5],li[i][6],li[i][7],li[i][8],li[i][9],li[i][10]])
+        except:
+            pass
+            #desc.append(summ)
+    print(len(src))
+
+    #return render(request,'app/studentuser.html',{'src':src})
+    return render(request,'app/adminuser.html',{'src':src})
 
 def admin_user_login(request):
 

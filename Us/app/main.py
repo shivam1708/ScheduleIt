@@ -14,7 +14,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-import pyscreenshot as ImageGrab
 
 fromaddr = "teamanything98@gmail.com"
 
@@ -27,7 +26,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = ""
+password = "test123"
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -89,6 +88,44 @@ def unsubChannel(username,value):
         refresh(user)
         unsubChannel(username,value)
 
+def create_placement(name,a,b,c,d,e,f,g):
+    data={}
+    try:
+        events=db.get(user['idToken']).val()
+    except:
+        refresh(user)
+        events=db.get(user['idToken']).val()
+    if 'Placement' in events.keys():
+        lis=events['Placement']
+        print(lis)
+        lis[name]=[a,b,c,d,e,f,g]
+        print(lis)
+        try:
+            db.child("Placement").set(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child("Placement").set(lis,user['idToken'])
+    else:
+        data[name]=[a,b,c,d,e,f,g]
+        db.child("Placement").set(data,user['idToken'])
+
+def show_placements(username):
+    try:
+        placements=db.child("Placement").get(user['idToken']).val()
+        users=db.child("users").child(username).get(user['idToken']).val()
+    except:
+        refresh(user)
+        placements=db.child("Placement").get(user['idToken']).val()
+        users=db.child(username).get(user['idToken']).val()
+    lis={}
+    print(placements)
+    print(users)
+    for i in placements.keys():
+        print(placements[i])
+        if float(users['CGPA'])>=float(placements[i][0]) and int(users['year'])>=int(placements[i][1]):
+            lis[i]=placements[i]
+    return lis
+
 def Register(username,event):
     print(event)
     try:
@@ -122,7 +159,7 @@ def Register(username,event):
     except:
         refresh(user)
         db.child("event").child(event).set(eventup,user['idToken'])
-    
+
 
 def show_req():
     try:
@@ -136,9 +173,10 @@ def show_req():
 def unRegister(username,event):
     try:
         data={}
+        print(sender_id)
         users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
         if(len(users.each())):#check if entry exists
-            data=users.val()[username]
+       	    data=users.val()[username]
             #print(data)
             if "pin" in data.keys():
                 #print("here")
@@ -242,7 +280,7 @@ def create_request(name,a,b,c,d,e,f,g,h,i,j):
 	if 'requests' in events.val().keys():
 		lis=events.val()['requests']
 		print(lis)
-		lis[name]=[name,a,b,c,d,e,f,g,h,i,j]
+		lis[a]=[name,a,b,c,d,e,f,g,h,i,j]
 		print(lis)
 		try:
 			db.child("requests").update(lis,user['idToken'])
@@ -250,7 +288,7 @@ def create_request(name,a,b,c,d,e,f,g,h,i,j):
 			refresh(user)
 			db.child("requests").update(lis,user['idToken'])
 	else:
-		data[name]=[a,b,c,d]
+		data[a]=[name,a,b,c,d,e,f,g,h,i,j]
 		db.child("requests").set(data,user['idToken'])
 
 def create_notice(name,a,b,c,d):
@@ -335,7 +373,42 @@ def approve_request(a):
     description = temp[2]
     date_from = temp[5]
     date_to = temp[6]
+    subject_text = "Approval results of your event "
+    body = "Your event : " + title + " has been approved and can now be successfully hosted"
+    send_text_mail(subject=subject_text,body_text=body,toaddr=council_email)
     add_remove_events("add",council_email,title,location,description,date_from,date_to)
+
+def decline_request(a):
+    temp=[]
+    try:
+        events=db.get(user['idToken'])
+    except:
+        refresh(user)
+        events=db.get(user['idToken'])
+    if 'requests' in events.val().keys():
+        lis=events.val()['requests']
+        temp=lis[a]
+        del lis[a]
+        try:
+            db.child('requests').set(lis,user['idToken'])
+        except:
+            refresh(user)
+            db.child('requests').set(lis,user['idToken'])
+
+def add_user(name,cgpa,emailid,mobile):
+    try:
+        users=db.child("users").get(user['idToken'])
+    except:
+        refresh(user)
+        users=db.child("users").get(user['idToken'])
+    if users!=None:
+        data=users.val()
+        data[name]={'CGPA':cgpa,'email-id':emailid,'mobile':mobile}
+        db.child("users").set(data,user['idToken'])
+    else:
+        data={}
+        data[name]={'CGPA':cgpa,'email-id':emailid,'mobile':mobile}
+        db.child("users").set(data,user['idToken'])
 
 def remove_event(name):
     try:
@@ -361,6 +434,9 @@ def remove_event(name):
     description = temp[2]
     date_from = temp[5]
     date_to = temp[6]
+    subject_text = "Approval results of your event "
+    body = "Unfortunately , your event : " + titile + " cannot be hosted as approved by our admin. "
+    send_text_mail(subject=subject_text,body_text=body,toaddr=council_email)
     add_remove_events("del",council_email,title,location,description,date_from,date_to)
 
 def extra(username):
@@ -368,7 +444,6 @@ def extra(username):
     if(len(users.each())):#check if entry exists
         lis=users.val()[username]['sub']
         return lis
-
 
 #### notification s
 def send_sms(name,event):
@@ -384,6 +459,24 @@ def send_sms(name,event):
     my_message = "Hi, " + name + "\nYou're successfully registered for :" + event
     query.send(contact_number,my_message) # recipient = receiver's number
     query.Logout()
+
+def send_text_mail(subject,body_text,toaddr="nishchith.s@somaiya.edu"):
+    msg = MIMEMultipart()
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(body_text,'plain'))
+
+    server = smtplib.SMTP('smtp.gmail.com', 587) #465 or 587 open
+    server.starttls()
+
+    # your login details
+    server.login(fromaddr, "@randombits98")
+    text = msg.as_string()
+    server.sendmail(fromaddr, toaddr, text)
+    print("Text email sent successfully")
+    server.quit()
 
 def send_mail(subject,body_text,location,toaddr = "nishchith.s@somaiya.edu"):
     msg = MIMEMultipart()
@@ -407,6 +500,7 @@ def send_mail(subject,body_text,location,toaddr = "nishchith.s@somaiya.edu"):
     s.login(fromaddr, "@randombits98")
     text = msg.as_string()
     s.sendmail(fromaddr, toaddr, text)
+    print("Text email sent successfully")
     s.quit()
 
 def send_ticket(name,event):
@@ -420,7 +514,6 @@ def send_ticket(name,event):
     print(email_id)
     location = name+"-"+event+"-qr.png"
     send_mail(subject="Your Confirmed Tickets for : "+event,body_text="PFA, \n regards",toaddr=email_id,location = location)
-
 
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
@@ -482,7 +575,7 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
         for event in events:
             if event["summary"] == title:
                 service.events().delete(calendarId='primary', eventId=event["id"]).execute()
-                return 
+                return
 
     created_event = service.events().quickAdd(
     calendarId='primary',
@@ -492,9 +585,9 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
     '''
     check :meta , add params
     '''
-    #mm/dd/yyyy/hh:mm:am   
-    date_from = df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
-    date_to = dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
+    #mm/dd/yyyy/hh:mm:am
+    date_from = df + "00:-05:30" # df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
+    date_to = dt + "00:-05:30" # dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
     event = {
         'summary': title,
         'location': location,
@@ -536,5 +629,5 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
 
 def create_qrcode(name,eventname):
     import pyqrcode
-    qr = pyqrcode.create("Name: "+name+" \nApproved: Yes \n "+"Event Name: "+eventname)     # expand
+    qr = pyqrcode.create("Name: "+name+" \nApproved: Yes \n" + "Event Name: "+eventname)     # expand
     qr.png(name+"-"+eventname+"-qr.png", scale=5)
