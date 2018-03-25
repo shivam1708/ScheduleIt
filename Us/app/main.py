@@ -27,7 +27,7 @@ config={
 
 
 email = "teamanything98@gmail.com"
-password = "test123"
+password = ""
 
 firebase = pyrebase.initialize_app(config)
 auth=firebase.auth()
@@ -174,7 +174,6 @@ def show_req():
 def unRegister(username,event):
     try:
         data={}
-        print(sender_id)
         users=db.child("users").order_by_key().equal_to(username).get(user['idToken'])
         if(len(users.each())):#check if entry exists
        	    data=users.val()[username]
@@ -479,6 +478,47 @@ def send_text_mail(subject,body_text,toaddr="nishchith.s@somaiya.edu"):
     server.sendmail(fromaddr, toaddr, text)
     print("Text email sent successfully")
     server.quit()
+
+def like(a):
+    try:
+        even=db.child("event").get(user['idToken']).val()
+    except:
+        refresh(user)
+        even=db.child("event").get(user['idToken']).val()
+    even[a][-3]=str(int(even[a][-3])+1)
+    try:
+        db.child("event").set(even,user['idToken'])
+    except:
+        refresh(user)
+        db.child("event").set(even,user['idToken'])
+
+def unlike(a):
+    try:
+        even=db.child("event").get(user['idToken']).val()
+    except:
+        refresh(user)
+        even=db.child("event").get(user['idToken']).val()
+    even[a][-2]=str(int(even[a][-2])+1)
+    try:
+        db.child("event").set(even,user['idToken'])
+    except:
+        refresh(user)
+        db.child("event").set(even,user['idToken'])
+
+def comment(a):
+    s=sent_text(a)
+    try:
+        even=db.child("event").get(user['idToken']).val()
+    except:
+        refresh(user)
+        even=db.child("event").get(user['idToken']).val()
+    even[a][-1]=str(((10*float(even[a][-1]))+s)/11)
+    try:
+        db.child("event").set(even,user['idToken'])
+    except:
+        refresh(user)
+        db.child("event").set(even,user['idToken'])
+
 
 def send_mail(subject,body_text,location,toaddr = "nishchith.s@somaiya.edu"):
     msg = MIMEMultipart()

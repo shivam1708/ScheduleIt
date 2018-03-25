@@ -74,6 +74,9 @@ def student_browse(request):
     print(len(src))
     return render(request,'app/browse.html',{'src':src})
 
+def calender(request):
+    return render(request,'app/calender.html',{})
+
 def register(request):
     print("hello")
     if request.method == 'POST':
