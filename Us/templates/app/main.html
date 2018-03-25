@@ -4,16 +4,21 @@
   <head>
     <meta charset="utf-8">
     <title>Base</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Sofia" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
   <body>
 
   
 
-    <a href="{% url 'app:student_user_login' %}">Student</a>
-    <a href="{% url 'app:council_user_login' %}">Council</a>
-    <a href="{% url 'app:admin_user_login' %}">Admin</a>
+    <a class="welcome" href="{% url 'app:student_user_login' %}">Student</a>
+    <a class="welcome" href="{% url 'app:council_user_login' %}">Council</a>
+    <a class="welcome" href="{% url 'app:admin_user_login' %}">Admin</a>
 
+    <div class="logoTitle">
+      <img src="{% static 'assets/logo1.png' %}" alt="">
+      <span>cheduleIt</span>
+    </div>
 
     {% block body_block %}
 
