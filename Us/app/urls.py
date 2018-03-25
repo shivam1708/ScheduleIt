@@ -6,6 +6,8 @@ app_name = 'app'
 
 
 urlpatterns=[
+    url(r'^likey/$',views.likey,name='likey'),
+    url(r'^unlikey/$',views.unlikey,name='unlikey'),
     url(r'^add/$',views.student_add,name='student_add'),
     url(r'^remove/$',views.student_remove,name='student_remove'),
     url(r'^subscribed/$',views.subscribed,name='subscribed'),

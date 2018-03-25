@@ -76,9 +76,12 @@
       </div>
   </div>
   {% if user.is_authenticated %}
-    <script>var bookadd_url = "{% url 'app:register' %}"
-            var bookrem_url = "{% url 'app:unregister' %}"</script>
+    <script>var bookadd_url = "{% url 'app:register' %}";
+            var bookrem_url = "{% url 'app:unregister' %}";
+            var like_url = "{% url 'app:likey' %}";
+            var unlike_url = "{% url 'app:unlikey' %}"; </script>
     <script src="{% static 'js/bookmark.js' %}"></script>
+    <script src="{% static 'js/like.js' %}"></script>
   {% endif %}
 
   <!-- <script src="{% static 'js/animate-form.js' %}"></script> -->
