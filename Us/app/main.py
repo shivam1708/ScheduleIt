@@ -14,7 +14,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-from textblob import TextBlob
+#from textblob import TextBlob
 
 fromaddr = "teamanything98@gmail.com"
 
@@ -631,8 +631,8 @@ def add_remove_events(flag,council_email,title,location,description,df,dt):
     check :meta , add params
     '''
     #mm/dd/yyyy/hh:mm:am
-    date_from = df + ":00-05:30" # df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
-    date_to = dt + ":00-05:30" # dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
+    date_from = df + ":00+05:30" # df[6:10] + "-" + df[:2] + "-" + df[3:5] + "T" + df[11:13] + ":" + df[14:16] + ":00-05:30"
+    date_to = dt + ":00+05:30" # dt[6:10] + "-" + dt[:2] + "-" + dt[3:5] + "T" + dt[11:13] + ":" + dt[14:16] + ":00-05:30"
     event = {
         'summary': title,
         'location': location,
